@@ -1,0 +1,34 @@
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id              String   @id @default(cuid())
+  username        String   @unique
+  fullname        String
+  email           String   @unique
+  password        String
+  role            Role     @default(USER)
+  profileImageUrl String   @default("") @map("profile_image_url")
+  coverImageUrl   String   @default("") @map("cover_image_url")
+  bio             String   @default("")
+  link            String   @default("")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  posts                 Post[]
+  comments              Comment[]
+  likes                 Like[]
+  reposts               Repost[]
+  favorites             Favorite[]
+  commentLikes          CommentLike[]
+  sentNotifications     Notification[] @relation("NotificationFrom")
+  receivedNotifications Notification[] @relation("NotificationTo")
+  authTokens            AuthToken[]
+
+  following Follow[] @relation("Follower")
+  followers Follow[] @relation("Following")
+
+  @@map("users")
+}

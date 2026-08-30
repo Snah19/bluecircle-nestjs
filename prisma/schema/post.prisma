@@ -1,0 +1,19 @@
+model Post {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  text       String?
+  imageUrls  String[] @default([]) @map("image_urls")
+  viewsCount Int      @default(0) @map("views_count")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+  likes         Like[]
+  reposts       Repost[]
+  favorites     Favorite[]
+  notifications Notification[]
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("posts")
+}
