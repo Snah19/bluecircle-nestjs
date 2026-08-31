@@ -7,7 +7,9 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
-  async findByUsername(username: string) {
+  async findByUsername(
+    username: string
+  ) {
     const user = await this.prismaService.user.findUnique({
       where: { username },
       omit: { password: true },
@@ -20,9 +22,25 @@ export class UsersService {
     return user;
   }
 
-  async findPosts(username: string, page: number, limit: number) {
+  async findPosts(
+    {
+      username,
+      authUserId,
+      page,
+      limit,
+    }: {
+      username: string,
+      authUserId?: string,
+      page: number,
+      limit: number,
+    }
+  ) {
+    const viewerId = authUserId ?? "__unauthenticated__";
+
     const user = await this.prismaService.user.findUnique({
-      where: { username }
+      where: {
+        username
+      }
     });
 
     if (!user) {
@@ -38,7 +56,9 @@ export class UsersService {
         },
         include: {
           user: {
-            omit: { password: true },
+            omit: {
+              password: true
+            },
           },
           _count: {
             select: {
@@ -47,6 +67,18 @@ export class UsersService {
               favorites: true,
               comments: true,
             },
+          },
+          likes: {
+            where: { userId: viewerId },
+            select: { id: true },
+          },
+          reposts: {
+            where: { userId: viewerId },
+            select: { id: true },
+          },
+          favorites: {
+            where: { userId: viewerId },
+            select: { id: true },
           },
         },
         orderBy: {
@@ -64,16 +96,22 @@ export class UsersService {
     ]);
 
     const data = posts.map((p) => {
-      const { _count, user, ...fields } = p;
-      const { likes, reposts, favorites, comments } = _count;
+      const { _count, user, likes, reposts, favorites, ...fields } = p;
 
       return {
         ...fields,
         user,
-        likes,
-        reposts,
-        favorites,
-        comments,
+        engagement: {
+          likesCount: _count.likes,
+          repostsCount: _count.reposts,
+          favorites: _count.favorites,
+          comments: _count.comments,
+        },
+        myEngagement: {
+          isLiked: likes.length > 0,
+          isReposted: reposts.length > 0,
+          isFavorited: favorites.length > 0,
+        }
       }
     });
 

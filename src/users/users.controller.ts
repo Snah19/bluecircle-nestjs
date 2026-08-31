@@ -1,8 +1,10 @@
 // src/users/users.controller.ts
 
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { PaginatePostsDto } from "src/posts/dto/paginate-posts.dto";
+import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
+import { AuthUser } from "src/auth/auth-user.decorator";
 
 @Controller('users/:username')
 export class UsersController {
@@ -16,14 +18,17 @@ export class UsersController {
   }
 
   @Get('posts')
+  @UseGuards(OptionalAuthGuard)
   findPosts(
     @Param('username') username: string,
     @Query() query: PaginatePostsDto,
+    @AuthUser() user?: { id: string },
   ) {
-    return this.userService.findPosts(
+    return this.userService.findPosts({
       username,
-      query.page,
-      query.limit,
-    );
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,
+    });
   }
 }
