@@ -20,4 +20,16 @@ export class PostsController {
       authUserId: authUser.id,
     });
   }
+
+  @Post(':id/reposts')
+  @UseGuards(AuthGuard)
+  async toggleRepost(
+    @Param('id') id: string,
+    @AuthUser() authUser: { id: string },
+  ) {
+    return this.postsService.toggleRepost({
+      postId: id,
+      authUserId: authUser.id,
+    });
+  }
 }
