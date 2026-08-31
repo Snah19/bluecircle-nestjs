@@ -121,4 +121,60 @@ export class PostsService {
       repostsCount,
     }
   }
+
+  async toggleFavorite(
+    {
+      postId,
+      authUserId,
+    } : {
+      postId: string;
+      authUserId: string;
+    }   
+  ) {
+    const post = await this.prismaService.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const existingFavorite = await this.prismaService.favorite.findUnique({
+      where: {
+        userId_postId: {
+          userId: authUserId,
+          postId,
+        }
+      }
+    });
+
+    if (existingFavorite) {
+      await this.prismaService.favorite.delete({
+        where: {
+          id: existingFavorite.id,
+        },
+      });
+    }
+    else {
+      await this.prismaService.favorite.create({
+        data: {
+          userId: authUserId,
+          postId,
+        },
+      });
+    }
+
+    const favoritesCount = await this.prismaService.favorite.count({
+      where: {
+        postId,
+      }
+    });
+
+    return {
+      isFavorited: !existingFavorite,
+      favoritesCount,
+    }
+  }
 }
