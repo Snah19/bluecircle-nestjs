@@ -31,4 +31,49 @@ export class UsersController {
       limit: query.limit,
     });
   }
+
+  @Get('reposts')
+  @UseGuards(OptionalAuthGuard)
+  findRepostedPosts(
+    @Param('username') username: string,
+    @Query() query: PaginatePostsDto,
+    @AuthUser() user?: { id: string },    
+  ){
+    return this.userService.findRepostedPosts({
+      username,
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,
+    });
+  }
+
+  @Get('likes')
+  @UseGuards(OptionalAuthGuard)
+  findLikedPosts(
+    @Param('username') username: string,
+    @Query() query: PaginatePostsDto,
+    @AuthUser() user?: { id: string },    
+  ) {
+    return this.userService.findLikedPosts({
+      username,
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,    
+    });
+  }
+
+  @Get('favorites')
+  @UseGuards(OptionalAuthGuard)
+  findFavoritedPosts(
+    @Param('username') username: string,
+    @Query() query: PaginatePostsDto,
+    @AuthUser() user?: { id: string },    
+  ) {
+    return this.userService.findFavoritedPosts({
+      username,
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,    
+    });
+  }
 }
