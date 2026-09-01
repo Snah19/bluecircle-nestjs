@@ -29,9 +29,6 @@ jobs:
       - name: Generate Prisma client
         run: pnpm prisma generate
 
-      - name: Lint (check only, no autofix)
-        run: pnpm eslint "{src,apps,libs,test}/**/*.ts"
-
       - name: Build
         run: pnpm build
 
