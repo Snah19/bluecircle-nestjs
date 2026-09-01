@@ -7,10 +7,12 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { UploadImagesModule } from './upload-images/upload-images..module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     PrismaModule,
+    AuthModule,
     UsersModule,
     PostsModule,
     UploadImagesModule,
