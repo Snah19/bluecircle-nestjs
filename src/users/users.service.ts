@@ -472,10 +472,10 @@ export class UsersService {
         ...postFields,
         user: postUser,
         engagement: {
-          likesCount: _count.likes,
-          repostsCount: _count.reposts,
-          favoritesCount: _count.favorites,
-          commentsCount: _count.comments,
+          totalLikes: _count.likes,
+          totalReposts: _count.reposts,
+          totalFavorites: _count.favorites,
+          totalComments: _count.comments,
         },
         myEngagement: {
           isLiked: likes.length > 0,
