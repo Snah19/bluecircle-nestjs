@@ -13,14 +13,27 @@ export class PostsController {
 
   @Get('discover')
   @UseGuards(OptionalAuthGuard)
-  async getDiscoverPosts(
+  async findDiscoverPosts(
     @Query() query: PaginatePostsDto,
     @AuthUser() user?: { id: string },
   ) {
-    return this.postsService.getDiscoverPosts({
+    return this.postsService.findDiscoverPosts({
       authUserId: user?.id,
       page: query.page,
       limit: query.limit,
+    });
+  }
+
+  @Get('following')
+  @UseGuards(OptionalAuthGuard)
+  async findFollowingPosts(
+    @Query() query: PaginatePostsDto,
+    @AuthUser() user?: { id: string },    
+  ) {
+    return this.postsService.findFollowingPosts({
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,   
     });
   }
 
