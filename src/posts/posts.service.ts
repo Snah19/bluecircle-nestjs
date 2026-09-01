@@ -10,7 +10,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class PostsService {
   constructor(private prismaService: PrismaService) {}
 
-  async getDiscoverPosts(
+  async findDiscoverPosts(
     {
       authUserId,
       page,
@@ -111,6 +111,143 @@ export class PostsService {
         lastPage: Math.ceil(total / limit),
       }
     }
+  }
+
+  async findFollowingPosts(
+    {
+      authUserId,
+      page,
+      limit,
+    }: {
+      authUserId?: string,
+      page: number,
+      limit: number,
+    }
+  ) {
+    const viewerId = authUserId ?? "__unauthenticated__";
+    const skip = (page - 1) * limit;
+    
+    const followings = await this.prismaService.follow.findMany({
+      where: {
+        followerId: viewerId,
+      },
+      select: {
+        followingId: true,
+      }
+    });
+
+    const followingIds = followings.map((f) => f.followingId);
+
+    if (followingIds.length === 0) {
+      return {
+        data: [],
+        meta: {
+          total: 0,
+          page,
+          limit,
+          lastPage: 0,
+        }
+      }
+    }
+
+    const [posts, total] = await Promise.all([
+      this.prismaService.post.findMany({
+        where: {
+          userId: {
+            in: followingIds,
+          },
+        },
+        include: {
+          user: {
+            omit: {
+              password: true,
+            }
+          },
+          _count: {
+            select: {
+              likes: true,
+              reposts: true,
+              favorites: true,
+              comments: true,
+            }
+          },
+          likes: {
+            where: {
+              userId: viewerId,
+            },
+            select: {
+              id: true,
+            }
+          },
+          reposts: {
+            where: {
+              userId: viewerId,
+            },
+            select: {
+              id: true,
+            },
+          },
+          favorites: {
+            where: {
+              userId: viewerId,
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+
+      this.prismaService.post.count({
+        where: {
+          userId: {
+            in: followingIds,
+          }
+        }
+      }),
+    ]);
+
+    const data = posts.map((p) => {
+      const {
+        _count,
+        user,
+        likes,
+        reposts,
+        favorites,
+        ...postFields
+      } = p;
+
+      return {
+        ...postFields,
+        user,
+        engagement: {
+          totalLikes: _count.likes,
+          totalReposts: _count.reposts,
+          totalFavorites: _count.favorites,
+          totalComments: _count.comments,
+        },
+        myEngagement: {
+          isLiked: likes.length > 0,
+          isReposted: reposts.length > 0,
+          isFavorited: favorites.length > 0,
+        },        
+      };
+    });
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      }
+    }    
   }
 
   async toggleLike(
