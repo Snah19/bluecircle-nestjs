@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { UploadImagesModule } from './upload-images/upload-images..module';
 import { AuthModule } from './auth/auth.module';
+import { FollowsModudle } from './follows/follows.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
     UsersModule,
     PostsModule,
+    FollowsModudle,
     UploadImagesModule,
   ],
   controllers: [AppController],
