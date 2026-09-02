@@ -22,6 +22,64 @@ export class UsersService {
     return user;
   }
 
+  async findFollowers(
+    {
+      username,
+      page,
+      limit,
+    }: {
+      username: string;
+      page: number;
+      limit: number;
+    }
+  ) {
+    const user = await this.prismaService.user.findUnique({
+      where: { username },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [followers, total] = await Promise.all([
+      this.prismaService.follow.findMany({
+        where: {
+          followingId: user.id,
+        },
+        include: {
+          follower: {
+            omit: {
+              password: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+
+      this.prismaService.follow.count({
+        where: {
+          followingId: user.id,
+        },        
+      }),
+    ]);
+
+    return {
+      data: followers.map((f) => f.follower),
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      } 
+    }
+  }
+
   async findPosts(
     {
       username,
