@@ -5,10 +5,38 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreatePostDto } from './dto/create-posts.dto';
 
 @Injectable()
 export class PostsService {
   constructor(private prismaService: PrismaService) {}
+
+  async createPost(
+    {
+      authUserId,
+      dto,
+    }: {
+      authUserId: string;
+      dto: CreatePostDto,
+    }
+  ) {
+    const postData = await this.prismaService.post.create({
+      data: {
+        userId: authUserId,
+        text: dto.text ?? null,
+        imageUrls: dto.imageUrls ?? [],
+      },
+      include: {
+        user: {
+          omit: {
+            password: true,
+          }
+        }
+      }
+    });
+
+    return postData;
+  }
 
   async findDiscoverPosts(
     {

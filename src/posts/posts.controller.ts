@@ -1,15 +1,28 @@
 // src/posts/posts.controller.ts
 
-import { Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
 import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { PaginatePostsDto } from "./dto/paginate-posts.dto";
+import { CreatePostDto } from "./dto/create-posts.dto";
 
 @Controller('posts')
 export class PostsController {
   constructor(private postsService: PostsService) {}
+
+  @Post()
+  @UseGuards(AuthGuard)
+  createPost(
+    @Body() dto: CreatePostDto,
+    @AuthUser() user: { id: string },
+  ) {
+    return this.postsService.createPost({
+      authUserId: user.id,
+      dto,
+    });
+  }
 
   @Get('discover')
   @UseGuards(OptionalAuthGuard)
