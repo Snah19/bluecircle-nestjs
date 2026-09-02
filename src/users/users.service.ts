@@ -25,12 +25,14 @@ export class UsersService {
   async findFollowers(
     {
       username,
+      authUserId,
       page,
       limit,
     }: {
-      username: string;
-      page: number;
-      limit: number;
+      username: string,
+      authUserId?: string,
+      page: number,
+      limit: number,
     }
   ) {
     const user = await this.prismaService.user.findUnique({
@@ -69,8 +71,68 @@ export class UsersService {
       }),
     ]);
 
+    const followerIds = followers.map((f) => f.follower.id);
+
+    const [viewerFollowings, viewerFollowers] = authUserId && followerIds.length
+      ? await Promise.all([
+          this.prismaService.follow.findMany({
+            where: {
+              followerId: authUserId,
+              followingId: {
+                in: followerIds,
+              },
+            },
+            select: {
+              followerId: true,
+            }
+          }),
+
+          this.prismaService.follow.findMany({
+            where: {
+              followerId: {
+                in: followerIds,
+              },
+              followingId: authUserId,
+            },
+            select: {
+              followerId: true,
+            },
+          }),
+      ])
+      : [[], []];
+
+    const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followerId));
+    const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
+
+  const getStatus = (
+    isFollowedByViewer: boolean,
+    isFollowingViewer: boolean,
+  ): "follow" | "following" | "follow back" | "friend" => {
+    if (isFollowedByViewer && isFollowingViewer){
+      return "friend";
+    }
+    if (isFollowedByViewer) {
+      return "following";
+    }
+    if (isFollowingViewer) {
+      return "follow back";
+    }
+
+    return "follow";
+  };
+
+    const data = followers.map((f) => {
+      const isFollowedByViewer = viewerFollowingSet.has(f.follower.id);
+      const isFollowingViewer = viewerFollowerSet.has(f.follower.id);
+
+      return {
+        user: f.follower,
+        action: getStatus(isFollowedByViewer, isFollowingViewer),
+      };
+    });
+
     return {
-      data: followers.map((f) => f.follower),
+      data,
       meta: {
         total,
         page,

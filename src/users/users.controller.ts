@@ -19,9 +19,11 @@ export class UsersController {
   }
 
   @Get("followers")
+  @UseGuards(OptionalAuthGuard)
   findFollowers(
     @Param('username') username: string,
     @Query() query: PaginateFollowsDto,
+    @AuthUser() user?: { id: string },
   ) {
     return this.userService.findFollowers({
       username,
