@@ -126,8 +126,10 @@ export class UsersService {
       const isFollowingViewer = viewerFollowerSet.has(f.follower.id);
 
       return {
-        user: f.follower,
-        action: getStatus(isFollowedByViewer, isFollowingViewer),
+        ...f.follower,
+        viewer: {
+          action: getStatus(isFollowedByViewer, isFollowingViewer),
+        }
       };
     });
 
@@ -227,13 +229,13 @@ export class UsersService {
       return {
         ...postFields,
         user,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
@@ -339,13 +341,13 @@ export class UsersService {
       return {
         ...postFields,
         user: postUser,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
@@ -465,13 +467,13 @@ export class UsersService {
       return {
         ...postFields,
         user: postUser,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
@@ -591,13 +593,13 @@ export class UsersService {
       return {
         ...postFields,
         user: postUser,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
