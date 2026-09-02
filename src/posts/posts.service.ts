@@ -116,13 +116,13 @@ export class PostsService {
       return {
         ...postFields,
         user,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
@@ -253,13 +253,13 @@ export class PostsService {
       return {
         ...postFields,
         user,
-        engagement: {
+        meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
           totalFavorites: _count.favorites,
           totalComments: _count.comments,
         },
-        myEngagement: {
+        viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isFavorited: favorites.length > 0,
