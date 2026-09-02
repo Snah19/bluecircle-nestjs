@@ -5,6 +5,7 @@ import { UsersService } from "./users.service";
 import { PaginatePostsDto } from "src/posts/dto/paginate-posts.dto";
 import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
+import { PaginateFollowsDto } from "src/follows/dto/paginate-follows.dto";
 
 @Controller('users/:username')
 export class UsersController {
@@ -15,6 +16,18 @@ export class UsersController {
     @Param('username') username: string
   ) {
     return this.userService.findByUsername(username);
+  }
+
+  @Get("followers")
+  findFollowers(
+    @Param('username') username: string,
+    @Query() query: PaginateFollowsDto,
+  ) {
+    return this.userService.findFollowers({
+      username,
+      page: query.page,
+      limit: query.limit,
+    });
   }
 
   @Get('posts')
