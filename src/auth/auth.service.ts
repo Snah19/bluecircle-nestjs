@@ -69,6 +69,15 @@ export class AuthService {
     };
   }
 
+  async logout(plaintextToken: string) {
+    const tokenHash = hashToken(plaintextToken);
+    await this.prismaService.authToken.deleteMany({
+      where: {
+        tokenHash,
+      },
+    });
+  }
+
   async validateToken(plaintextToken: string) {
     const tokenHash = hashToken(plaintextToken);
 
