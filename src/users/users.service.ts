@@ -83,7 +83,7 @@ export class UsersService {
               },
             },
             select: {
-              followerId: true,
+              followingId: true,
             }
           }),
 
@@ -101,7 +101,7 @@ export class UsersService {
       ])
       : [[], []];
 
-    const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followerId));
+    const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followingId));
     const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
 
     const getStatus = (
@@ -142,6 +142,133 @@ export class UsersService {
         lastPage: Math.ceil(total / limit),
       } 
     }
+  }
+
+  async findFollowings(
+    {
+      username,
+      authUserId,
+      page,
+      limit,
+    }: {
+      username: string,
+      authUserId?: string,
+      page: number,
+      limit: number,
+    }
+  ) {
+    console.log({
+      authUserId,
+    });
+
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [followings, total] = await Promise.all([
+      this.prismaService.follow.findMany({
+        where: {
+          followerId: user.id,
+        },
+        include: {
+          following: {
+            omit: {
+              password: true,
+            }
+          }
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+
+      this.prismaService.follow.count({
+        where: {
+          followerId: user.id,
+        }
+      }),
+    ]);
+
+    const followingIds = followings.map((f) => f.following.id);
+
+    const [viewerFollowings, viewerFollowers] = authUserId && followingIds.length
+      ? await Promise.all([
+        this.prismaService.follow.findMany({
+          where: {
+            followerId: authUserId,
+            followingId: {
+              in: followingIds,
+            },
+          },
+          select: {
+            followingId: true,
+          }
+        }),
+        this.prismaService.follow.findMany({
+          where: {
+            followerId: {
+              in: followingIds,
+            },
+            followingId: authUserId,
+          },
+          select: {
+            followerId: true,
+          }
+        }),
+      ])
+      : [[], []];
+
+    const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followingId));
+    const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
+
+    const getStatus = (
+      isFollowedByViewer: boolean,
+      isFolliwingViewer: boolean,
+    ): "follow" | "following" | "follow back" | "friend" => {
+      if (isFollowedByViewer && isFolliwingViewer) {
+        return "friend";
+      }
+      if (isFollowedByViewer) {
+        return "following";
+      }
+      if (isFolliwingViewer) {
+        return "follow back";
+      }
+
+      return "follow";
+    };
+
+    const data = followings.map((f) => {
+      const isFollowedByViewer = viewerFollowingSet.has(f.following.id);
+      const isFollowingViewer = viewerFollowerSet.has(f.following.id);
+
+      return {
+        ...f.following,
+        viewer: {
+          action: getStatus(isFollowedByViewer, isFollowingViewer),
+        },
+      };
+    });
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findPosts(

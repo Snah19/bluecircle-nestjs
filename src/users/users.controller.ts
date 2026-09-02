@@ -33,6 +33,21 @@ export class UsersController {
     });
   }
 
+  @Get("followings")
+  @UseGuards(OptionalAuthGuard)
+  findFollowings(
+    @Param('username') username: string,
+    @Query() query: PaginateFollowsDto,
+    @AuthUser() user?: { id: string },
+  ) {
+    return this.userService.findFollowings({
+      username,
+      authUserId: user?.id,
+      page: query.page,
+      limit: query.limit,
+    });
+  }
+
   @Get('posts')
   @UseGuards(OptionalAuthGuard)
   findPosts(
