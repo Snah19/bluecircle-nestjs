@@ -27,6 +27,7 @@ export class UsersController {
   ) {
     return this.userService.findFollowers({
       username,
+      authUserId: user?.id,
       page: query.page,
       limit: query.limit,
     });

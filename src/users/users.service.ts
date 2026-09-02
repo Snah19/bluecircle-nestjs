@@ -104,22 +104,22 @@ export class UsersService {
     const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followerId));
     const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
 
-  const getStatus = (
-    isFollowedByViewer: boolean,
-    isFollowingViewer: boolean,
-  ): "follow" | "following" | "follow back" | "friend" => {
-    if (isFollowedByViewer && isFollowingViewer){
-      return "friend";
-    }
-    if (isFollowedByViewer) {
-      return "following";
-    }
-    if (isFollowingViewer) {
-      return "follow back";
-    }
+    const getStatus = (
+      isFollowedByViewer: boolean,
+      isFollowingViewer: boolean,
+    ): "follow" | "following" | "follow back" | "friend" => {
+      if (isFollowedByViewer && isFollowingViewer){
+        return "friend";
+      }
+      if (isFollowedByViewer) {
+        return "following";
+      }
+      if (isFollowingViewer) {
+        return "follow back";
+      }
 
-    return "follow";
-  };
+      return "follow";
+    };
 
     const data = followers.map((f) => {
       const isFollowedByViewer = viewerFollowingSet.has(f.follower.id);
