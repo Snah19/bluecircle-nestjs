@@ -21,4 +21,16 @@ export class CommentsController {
       dto,
     });
   }
+
+  @Post("/:commentId/likes")
+  @UseGuards(AuthGuard)
+  async toggleLikeComment(
+    @Param("commentId") commentId: string,
+    @AuthUser() authUser: { id: string },
+  ) {
+    return this.commentsService.toggleLikeComment({
+      commentId,
+      authUserId: authUser.id,
+    });
+  }
 }

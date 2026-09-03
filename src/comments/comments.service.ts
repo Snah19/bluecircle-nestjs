@@ -63,4 +63,60 @@ export class CommentsService {
       user: comment.user,
     }
   }
+
+  async toggleLikeComment(
+    {
+      commentId,
+      authUserId,
+    }: {
+      commentId: string;
+      authUserId: string;
+    }
+  ) {
+    const comment = await this.prismaService.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (!comment) {
+      throw new NotFoundException("Comment not found");
+    }
+
+    const existingLike = await this.prismaService.commentLike.findUnique({
+      where: {
+        userId_commentId: {
+          userId: authUserId,
+          commentId,
+        },
+      },
+    });
+
+    if (existingLike) {
+      await this.prismaService.commentLike.delete({
+        where: {
+          id: existingLike.id,
+        }
+      });
+    }
+    else {
+      await this.prismaService.commentLike.create({
+        data: {
+          userId: authUserId,
+          commentId,
+        },
+      });
+    }
+
+    const totalLikes = await this.prismaService.commentLike.count({
+      where: {
+        commentId,
+      }
+    });
+
+    return {
+      isLiked: !existingLike,
+      totalLikes,
+    };
+  }
 }
