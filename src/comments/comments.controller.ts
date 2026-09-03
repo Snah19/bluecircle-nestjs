@@ -15,7 +15,7 @@ export class CommentsController {
     @Body() dto: CreateCommentDto,
     @AuthUser() authUser: { id: string },
   ) {
-    this.commentsService.createComment({
+    return this.commentsService.createComment({
       postId,
       authUserId: authUser.id,
       dto,
