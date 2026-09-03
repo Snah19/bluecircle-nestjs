@@ -3,6 +3,23 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 
+const getRelationshipStatus = (
+  isFollowedByViewer: boolean,
+  isFolliwingViewer: boolean,
+): "follow" | "following" | "follow back" | "friend" => {
+  if (isFollowedByViewer && isFolliwingViewer) {
+    return "friend";
+  }
+  if (isFollowedByViewer) {
+    return "following";
+  }
+  if (isFolliwingViewer) {
+    return "follow back";
+  }
+
+  return "follow";
+};
+
 @Injectable()
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
@@ -104,23 +121,6 @@ export class UsersService {
     const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followingId));
     const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
 
-    const getStatus = (
-      isFollowedByViewer: boolean,
-      isFollowingViewer: boolean,
-    ): "follow" | "following" | "follow back" | "friend" => {
-      if (isFollowedByViewer && isFollowingViewer){
-        return "friend";
-      }
-      if (isFollowedByViewer) {
-        return "following";
-      }
-      if (isFollowingViewer) {
-        return "follow back";
-      }
-
-      return "follow";
-    };
-
     const data = followers.map((f) => {
       const isFollowedByViewer = viewerFollowingSet.has(f.follower.id);
       const isFollowingViewer = viewerFollowerSet.has(f.follower.id);
@@ -128,7 +128,7 @@ export class UsersService {
       return {
         ...f.follower,
         viewer: {
-          action: getStatus(isFollowedByViewer, isFollowingViewer),
+          relationshipStatus: getRelationshipStatus(isFollowedByViewer, isFollowingViewer),
         }
       };
     });
@@ -157,10 +157,6 @@ export class UsersService {
       limit: number,
     }
   ) {
-    console.log({
-      authUserId,
-    });
-
     const user = await this.prismaService.user.findUnique({
       where: {
         username,
@@ -231,23 +227,6 @@ export class UsersService {
     const viewerFollowingSet = new Set(viewerFollowings.map((f) => f.followingId));
     const viewerFollowerSet = new Set(viewerFollowers.map((f) => f.followerId));
 
-    const getStatus = (
-      isFollowedByViewer: boolean,
-      isFolliwingViewer: boolean,
-    ): "follow" | "following" | "follow back" | "friend" => {
-      if (isFollowedByViewer && isFolliwingViewer) {
-        return "friend";
-      }
-      if (isFollowedByViewer) {
-        return "following";
-      }
-      if (isFolliwingViewer) {
-        return "follow back";
-      }
-
-      return "follow";
-    };
-
     const data = followings.map((f) => {
       const isFollowedByViewer = viewerFollowingSet.has(f.following.id);
       const isFollowingViewer = viewerFollowerSet.has(f.following.id);
@@ -255,7 +234,7 @@ export class UsersService {
       return {
         ...f.following,
         viewer: {
-          action: getStatus(isFollowedByViewer, isFollowingViewer),
+          relationshipStatus: getRelationshipStatus(isFollowedByViewer, isFollowingViewer),
         },
       };
     });
