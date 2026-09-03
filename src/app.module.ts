@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module';
 import { UploadImagesModule } from './upload-images/upload-images..module';
 import { AuthModule } from './auth/auth.module';
 import { FollowsModudle } from './follows/follows.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FollowsModudle } from './follows/follows.module';
     UsersModule,
     PostsModule,
     FollowsModudle,
+    CommentsModule,
     UploadImagesModule,
   ],
   controllers: [AppController],
