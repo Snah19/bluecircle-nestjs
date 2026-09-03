@@ -12,10 +12,16 @@ import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { type Request } from 'express';
 import { AuthGuard } from "./auth.guard";
+import { RegisterDto } from "./dto/register.dto";
 
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService){}
+
+  @Post("register")
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
+  }
 
   @Post("login")
   login(

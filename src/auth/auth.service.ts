@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException
@@ -7,7 +8,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
 import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
+const SALT_ROUNDS = 10;
 const TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 const hashToken = (plaintextToken) => {
@@ -19,6 +22,32 @@ export class AuthService {
   constructor(
     private prismaService: PrismaService,
   ){}
+
+  async register(dto: RegisterDto) {
+    const existing = await this.prismaService.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (existing) {
+      throw new ConflictException("Email already in use");
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.password, SALT_ROUNDS);
+    const userData = await this.prismaService.user.create({
+      data: {
+        username: dto.username,
+        fullname: dto.fullname,
+        email: dto.email,
+        password: hashedPassword,
+      }
+    });
+
+    const { password, ...user } = userData;
+
+    return user;
+  }
 
   async login(
     {
