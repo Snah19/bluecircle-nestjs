@@ -14,7 +14,7 @@ export class CommentsService {
     }: {
       postId: string;
       authUserId: string;
-      dto: CreateCommentDto,
+      dto: CreateCommentDto;
     }
   ) {
     const post = await this.prismaService.post.findUnique({
@@ -27,41 +27,59 @@ export class CommentsService {
       throw new NotFoundException("Post not found");
     }
 
+    let parentId: string | null = null;
+    let mentionedUserId: string | null = null;
+
     if (dto.parentId) {
-      const parent = await this.prismaService.comment.findUnique({
+      const parentComment = await this.prismaService.comment.findUnique({
         where: {
           id: dto.parentId,
         },
+        select: {
+          id: true,
+          postId: true,
+          parentId: true,
+          userId: true,
+        }
       });
 
-      if (!parent) {
+      if (!parentComment) {
         throw new NotFoundException("Parent comment not found");
       }
-      if (parent.postId !== postId) {
+
+      if (parentComment.postId !== postId) {
         throw new BadRequestException("Parent comment does not belong to this post");
       }
+
+      parentId = parentComment.parentId ?? parentComment.id;
+
+      const isReplyingToParentComment = parentComment.parentId === null;
+      mentionedUserId = isReplyingToParentComment ? null : parentComment.userId;
     }
 
     const comment = await this.prismaService.comment.create({
       data: {
         postId,
         userId: authUserId,
-        parentId: dto.parentId ?? null,
+        parentId,
+        mentionedUserId,
         text: dto.text,
       },
       include: {
         user: {
           omit: {
             password: true,
-          }
+          },
         },
-      },
+        mentionedUser: {
+          omit: {
+            password: true,
+          },
+        }
+      }
     });
 
-    return {
-      ...comment,
-      user: comment.user,
-    }
+    return comment;
   }
 
   async toggleLikeComment(
