@@ -445,4 +445,92 @@ export class PostsService {
       favoritesCount,
     }
   }
+
+  async findComments({
+    postId,
+    authUserId,
+    page,
+    limit,
+  }: {
+    postId: string;
+    authUserId?: string;
+    page: number;
+    limit: number;
+  }) {
+    const viewerId = authUserId ?? "__unauthenticated__";
+    const skip = (page - 1) * limit;
+
+    const [comments, total] = await Promise.all([
+      this.prismaService.comment.findMany({
+        where: {
+          postId,
+          parentId: null,
+        },
+        include: {
+          user: {
+            omit: {
+              password: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
+              replies: true,
+            },
+          },
+          likes: {
+            where: {
+              userId: viewerId,
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+
+      this.prismaService.comment.count({
+        where: {
+          postId,
+          parentId: null,
+        },
+      }),
+    ]);
+
+    const data = comments.map((c) => {
+      const {
+        _count,
+        user,
+        likes,
+        ...commentFields
+      } = c;
+
+      return {
+        ...commentFields,
+        user,
+        meta: {
+          totalLikes: _count.likes,
+          totalReplies: _count.replies,
+        },
+        viewer: {
+          isLiked: likes.length > 0,
+        },
+      };
+    });
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        lastPage: Math.ceil(total / limit),
+      },
+    };
+  }
 }

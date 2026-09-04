@@ -7,6 +7,7 @@ import { AuthUser } from "src/auth/auth-user.decorator";
 import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { PaginatePostsDto } from "./dto/paginate-posts.dto";
 import { CreatePostDto } from "./dto/create-posts.dto";
+import { PaginateCommentsDto } from "src/comments/dto/paginate-comments.dto";
 
 @Controller('posts')
 export class PostsController {
@@ -83,6 +84,21 @@ export class PostsController {
     return this.postsService.toggleFavorite({
       postId: id,
       authUserId: authUser.id,
+    });
+  }
+
+  @Get(":id/comments")
+  @UseGuards(OptionalAuthGuard)
+  async findComments(
+    @Param("id") id: string,
+    @Query() query: PaginateCommentsDto,
+    @AuthUser() authUser?: { id: string },
+  ) {
+    return this.postsService.findComments({
+      postId: id,
+      authUserId: authUser?.id,
+      page: query.page,
+      limit: query.limit,
     });
   }
 }
