@@ -18,7 +18,8 @@ model User {
   updatedAt       DateTime @updatedAt @map("updated_at")
 
   posts                 Post[]
-  comments              Comment[]
+  comments              Comment[]      @relation("CommentAuthor")
+  mentionedInComments Comment[] @relation("CommentMentionedUser")
   likes                 Like[]
   reposts               Repost[]
   favorites             Favorite[]
