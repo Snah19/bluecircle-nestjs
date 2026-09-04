@@ -119,4 +119,18 @@ export class CommentsService {
       totalLikes,
     };
   }
+
+  async findReplies({
+    commentId,
+    authUserId,
+    page,
+    limit,
+  }: {
+    commentId: string;
+    authUserId?: string;
+    page: number;
+    limit: number;
+  }) {
+    
+  }
 }
