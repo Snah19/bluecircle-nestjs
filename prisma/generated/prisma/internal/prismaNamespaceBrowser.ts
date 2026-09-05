@@ -54,12 +54,12 @@ export const ModelName = {
   AuthToken: 'AuthToken',
   CommentLike: 'CommentLike',
   Comment: 'Comment',
-  Favorite: 'Favorite',
   Follow: 'Follow',
   Like: 'Like',
   Notification: 'Notification',
   Post: 'Post',
   Repost: 'Repost',
+  Save: 'Save',
   User: 'User'
 } as const
 
@@ -115,16 +115,6 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
-
-
-export const FavoriteScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  postId: 'postId',
-  createdAt: 'createdAt'
-} as const
-
-export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
 
 
 export const FollowScalarFieldEnum = {
@@ -183,6 +173,16 @@ export const RepostScalarFieldEnum = {
 } as const
 
 export type RepostScalarFieldEnum = (typeof RepostScalarFieldEnum)[keyof typeof RepostScalarFieldEnum]
+
+
+export const SaveScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type SaveScalarFieldEnum = (typeof SaveScalarFieldEnum)[keyof typeof SaveScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
