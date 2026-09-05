@@ -55,11 +55,6 @@ export type CommentLike = Prisma.CommentLikeModel
  */
 export type Comment = Prisma.CommentModel
 /**
- * Model Favorite
- * 
- */
-export type Favorite = Prisma.FavoriteModel
-/**
  * Model Follow
  * 
  */
@@ -84,6 +79,11 @@ export type Post = Prisma.PostModel
  * 
  */
 export type Repost = Prisma.RepostModel
+/**
+ * Model Save
+ * 
+ */
+export type Save = Prisma.SaveModel
 /**
  * Model User
  * 

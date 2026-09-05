@@ -400,12 +400,12 @@ export const ModelName = {
   AuthToken: 'AuthToken',
   CommentLike: 'CommentLike',
   Comment: 'Comment',
-  Favorite: 'Favorite',
   Follow: 'Follow',
   Like: 'Like',
   Notification: 'Notification',
   Post: 'Post',
   Repost: 'Repost',
+  Save: 'Save',
   User: 'User'
 } as const
 
@@ -422,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "authToken" | "commentLike" | "comment" | "favorite" | "follow" | "like" | "notification" | "post" | "repost" | "user"
+    modelProps: "authToken" | "commentLike" | "comment" | "follow" | "like" | "notification" | "post" | "repost" | "save" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -645,80 +645,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CommentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CommentCountAggregateOutputType> | number
-        }
-      }
-    }
-    Favorite: {
-      payload: Prisma.$FavoritePayload<ExtArgs>
-      fields: Prisma.FavoriteFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.FavoriteFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.FavoriteFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        findFirst: {
-          args: Prisma.FavoriteFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.FavoriteFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        findMany: {
-          args: Prisma.FavoriteFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>[]
-        }
-        create: {
-          args: Prisma.FavoriteCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        createMany: {
-          args: Prisma.FavoriteCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.FavoriteCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>[]
-        }
-        delete: {
-          args: Prisma.FavoriteDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        update: {
-          args: Prisma.FavoriteUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        deleteMany: {
-          args: Prisma.FavoriteDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.FavoriteUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.FavoriteUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>[]
-        }
-        upsert: {
-          args: Prisma.FavoriteUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FavoritePayload>
-        }
-        aggregate: {
-          args: Prisma.FavoriteAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFavorite>
-        }
-        groupBy: {
-          args: Prisma.FavoriteGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FavoriteGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.FavoriteCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FavoriteCountAggregateOutputType> | number
         }
       }
     }
@@ -1092,6 +1018,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Save: {
+      payload: Prisma.$SavePayload<ExtArgs>
+      fields: Prisma.SaveFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SaveFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SaveFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        findFirst: {
+          args: Prisma.SaveFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SaveFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        findMany: {
+          args: Prisma.SaveFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>[]
+        }
+        create: {
+          args: Prisma.SaveCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        createMany: {
+          args: Prisma.SaveCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SaveCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>[]
+        }
+        delete: {
+          args: Prisma.SaveDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        update: {
+          args: Prisma.SaveUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        deleteMany: {
+          args: Prisma.SaveDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SaveUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SaveUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>[]
+        }
+        upsert: {
+          args: Prisma.SaveUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavePayload>
+        }
+        aggregate: {
+          args: Prisma.SaveAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSave>
+        }
+        groupBy: {
+          args: Prisma.SaveGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SaveGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SaveCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SaveCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1243,16 +1243,6 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
-export const FavoriteScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  postId: 'postId',
-  createdAt: 'createdAt'
-} as const
-
-export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
-
-
 export const FollowScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -1309,6 +1299,16 @@ export const RepostScalarFieldEnum = {
 } as const
 
 export type RepostScalarFieldEnum = (typeof RepostScalarFieldEnum)[keyof typeof RepostScalarFieldEnum]
+
+
+export const SaveScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type SaveScalarFieldEnum = (typeof SaveScalarFieldEnum)[keyof typeof SaveScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1603,12 +1603,12 @@ export type GlobalOmitConfig = {
   authToken?: Prisma.AuthTokenOmit
   commentLike?: Prisma.CommentLikeOmit
   comment?: Prisma.CommentOmit
-  favorite?: Prisma.FavoriteOmit
   follow?: Prisma.FollowOmit
   like?: Prisma.LikeOmit
   notification?: Prisma.NotificationOmit
   post?: Prisma.PostOmit
   repost?: Prisma.RepostOmit
+  save?: Prisma.SaveOmit
   user?: Prisma.UserOmit
 }
 

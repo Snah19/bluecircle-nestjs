@@ -93,14 +93,14 @@ export class UsersController {
     });
   }
 
-  @Get('favorites')
+  @Get('saves')
   @UseGuards(OptionalAuthGuard)
-  findFavoritedPosts(
+  findSavedPosts(
     @Param('username') username: string,
     @Query() query: PaginatePostsDto,
     @AuthUser() user?: { id: string },    
   ) {
-    return this.userService.findFavoritedPosts({
+    return this.userService.findSavedPosts({
       username,
       authUserId: user?.id,
       page: query.page,

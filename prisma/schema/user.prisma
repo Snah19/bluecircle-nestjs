@@ -22,7 +22,7 @@ model User {
   mentionedInComments Comment[] @relation("CommentMentionedUser")
   likes                 Like[]
   reposts               Repost[]
-  favorites             Favorite[]
+  saves                 Save[]
   commentLikes          CommentLike[]
   sentNotifications     Notification[] @relation("NotificationFrom")
   receivedNotifications Notification[] @relation("NotificationTo")

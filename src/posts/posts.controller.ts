@@ -75,13 +75,13 @@ export class PostsController {
     });
   }
 
-  @Post(':id/favorites')
+  @Post(':id/saves')
   @UseGuards(AuthGuard)
-  async toggleFavorite(
+  async toggleSave(
     @Param('id') id: string,
     @AuthUser() authUser: { id: string },
   ) {
-    return this.postsService.toggleFavorite({
+    return this.postsService.toggleSave({
       postId: id,
       authUserId: authUser.id,
     });

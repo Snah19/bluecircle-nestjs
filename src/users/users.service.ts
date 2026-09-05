@@ -291,7 +291,7 @@ export class UsersService {
             select: {
               likes: true,
               reposts: true,
-              favorites: true,
+              saves: true,
               comments: true,
             },
           },
@@ -303,7 +303,7 @@ export class UsersService {
             where: { userId: viewerId },
             select: { id: true },
           },
-          favorites: {
+          saves: {
             where: { userId: viewerId },
             select: { id: true },
           },
@@ -328,7 +328,7 @@ export class UsersService {
         user,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = p;
 
@@ -338,13 +338,13 @@ export class UsersService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         }
       }
     });
@@ -403,7 +403,7 @@ export class UsersService {
                 select: {
                   likes: true,
                   reposts: true,
-                  favorites: true,
+                  saves: true,
                   comments: true,
                 },
               },
@@ -415,7 +415,7 @@ export class UsersService {
                 where: { userId: viewerId },
                 select: { id: true },
               },
-              favorites: {
+              saves: {
                 where: { userId: viewerId },
                 select: { id: true },
               },
@@ -440,7 +440,7 @@ export class UsersService {
         user: postUser,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = r.post;
 
@@ -450,13 +450,13 @@ export class UsersService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         },
       };
     });
@@ -515,7 +515,7 @@ export class UsersService {
                 select: {
                   likes: true,
                   reposts: true,
-                  favorites: true,
+                  saves: true,
                   comments: true,
                 },
               },
@@ -535,7 +535,7 @@ export class UsersService {
                   id: true,
                 },
               },
-              favorites: {
+              saves: {
                 where: {
                   userId: user.id,
                 },
@@ -566,7 +566,7 @@ export class UsersService {
         user: postUser,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = l.post;
 
@@ -576,13 +576,13 @@ export class UsersService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         },
       };
     });
@@ -598,7 +598,7 @@ export class UsersService {
     }
   }
 
-  async findFavoritedPosts(
+  async findSavedPosts(
     {
       username,
       authUserId,
@@ -624,8 +624,8 @@ export class UsersService {
     const viewerId = authUserId ?? "__unauthenticated__";
     const skip = (page - 1) * limit;
 
-    const [favoritedPosts, total] = await Promise.all([
-      this.prismaService.favorite.findMany({
+    const [savedPosts, total] = await Promise.all([
+      this.prismaService.save.findMany({
         where: {
           userId: user.id,
         },
@@ -641,7 +641,7 @@ export class UsersService {
                 select: {
                   likes: true,
                   reposts: true,
-                  favorites: true,
+                  saves: true,
                   comments: true,
                 },
               },
@@ -661,7 +661,7 @@ export class UsersService {
                   id: true,
                 },
               },
-              favorites: {
+              saves: {
                 where: {
                   userId: viewerId,
                 },
@@ -679,20 +679,20 @@ export class UsersService {
         take: limit,
       }),
 
-      this.prismaService.favorite.count({
+      this.prismaService.save.count({
         where: {
           userId: user.id,
         },
       }),
     ]);
 
-    const data = favoritedPosts.map((f) => {
+    const data = savedPosts.map((f) => {
       const {
         _count,
         user: postUser,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = f.post;
 
@@ -702,13 +702,13 @@ export class UsersService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         },
       };
     });

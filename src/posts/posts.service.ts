@@ -64,7 +64,7 @@ export class PostsService {
             select: {
               likes: true,
               reposts: true,
-              favorites: true,
+              saves: true,
               comments: true,
             },
           },
@@ -84,7 +84,7 @@ export class PostsService {
               id: true,
             }
           },
-          favorites: {
+          saves: {
             where: {
               userId: viewerId,
             },
@@ -109,7 +109,7 @@ export class PostsService {
         user,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = p;
 
@@ -119,13 +119,13 @@ export class PostsService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         },
       };
     });
@@ -195,7 +195,7 @@ export class PostsService {
             select: {
               likes: true,
               reposts: true,
-              favorites: true,
+              saves: true,
               comments: true,
             }
           },
@@ -215,7 +215,7 @@ export class PostsService {
               id: true,
             },
           },
-          favorites: {
+          saves: {
             where: {
               userId: viewerId,
             },
@@ -246,7 +246,7 @@ export class PostsService {
         user,
         likes,
         reposts,
-        favorites,
+        saves,
         ...postFields
       } = p;
 
@@ -256,13 +256,13 @@ export class PostsService {
         meta: {
           totalLikes: _count.likes,
           totalReposts: _count.reposts,
-          totalFavorites: _count.favorites,
+          totalSaves: _count.saves,
           totalComments: _count.comments,
         },
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: favorites.length > 0,
+          isFavorited: saves.length > 0,
         },        
       };
     });
@@ -322,7 +322,7 @@ export class PostsService {
       });
     }
 
-    const likesCount = await this.prismaService.like.count({
+    const totalLikes = await this.prismaService.like.count({
       where: {
         postId,
       }
@@ -330,7 +330,7 @@ export class PostsService {
 
     return {
       isLiked: !existingLike,
-      likesCount,
+      totalLikes,
     }
   }
 
@@ -378,7 +378,7 @@ export class PostsService {
       });
     }
 
-    const repostsCount = await this.prismaService.repost.count({
+    const totalReposts = await this.prismaService.repost.count({
       where: {
         postId,
       }
@@ -386,11 +386,11 @@ export class PostsService {
 
     return {
       isReposted: !existingRepost,
-      repostsCount,
+      totalReposts,
     }
   }
 
-  async toggleFavorite(
+  async toggleSave(
     {
       postId,
       authUserId,
@@ -409,7 +409,7 @@ export class PostsService {
       throw new NotFoundException('Post not found');
     }
 
-    const existingFavorite = await this.prismaService.favorite.findUnique({
+    const existingSave = await this.prismaService.save.findUnique({
       where: {
         userId_postId: {
           userId: authUserId,
@@ -418,15 +418,15 @@ export class PostsService {
       }
     });
 
-    if (existingFavorite) {
-      await this.prismaService.favorite.delete({
+    if (existingSave) {
+      await this.prismaService.save.delete({
         where: {
-          id: existingFavorite.id,
+          id: existingSave.id,
         },
       });
     }
     else {
-      await this.prismaService.favorite.create({
+      await this.prismaService.save.create({
         data: {
           userId: authUserId,
           postId,
@@ -434,15 +434,15 @@ export class PostsService {
       });
     }
 
-    const favoritesCount = await this.prismaService.favorite.count({
+    const totalSaves = await this.prismaService.save.count({
       where: {
         postId,
       }
     });
 
     return {
-      isFavorited: !existingFavorite,
-      favoritesCount,
+      isFavorited: !existingSave,
+      totalSaves,
     }
   }
 

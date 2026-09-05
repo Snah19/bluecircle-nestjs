@@ -11,7 +11,7 @@ model Post {
   comments      Comment[]
   likes         Like[]
   reposts       Repost[]
-  favorites     Favorite[]
+  saves         Save[]
   notifications Notification[]
 
   @@index([userId, createdAt(sort: Desc)])

@@ -1,4 +1,4 @@
-model Favorite {
+model Save {
   id        String   @id @default(cuid())
   userId    String   @map("user_id")
   postId    String   @map("post_id")
@@ -10,5 +10,5 @@ model Favorite {
   @@unique([userId, postId])
   @@index([userId])
   @@index([postId])
-  @@map("favorites")
+  @@map("saves")
 }
