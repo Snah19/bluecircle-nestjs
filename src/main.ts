@@ -19,6 +19,9 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
+  app.enableCors({
+    origin: '*',
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }
