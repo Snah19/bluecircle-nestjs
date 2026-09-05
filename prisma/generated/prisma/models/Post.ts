@@ -27,18 +27,18 @@ export type AggregatePost = {
 }
 
 export type PostAvgAggregateOutputType = {
-  viewsCount: number | null
+  totalViews: number | null
 }
 
 export type PostSumAggregateOutputType = {
-  viewsCount: number | null
+  totalViews: number | null
 }
 
 export type PostMinAggregateOutputType = {
   id: string | null
   userId: string | null
   text: string | null
-  viewsCount: number | null
+  totalViews: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -47,7 +47,7 @@ export type PostMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   text: string | null
-  viewsCount: number | null
+  totalViews: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,7 +57,7 @@ export type PostCountAggregateOutputType = {
   userId: number
   text: number
   imageUrls: number
-  viewsCount: number
+  totalViews: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -65,18 +65,18 @@ export type PostCountAggregateOutputType = {
 
 
 export type PostAvgAggregateInputType = {
-  viewsCount?: true
+  totalViews?: true
 }
 
 export type PostSumAggregateInputType = {
-  viewsCount?: true
+  totalViews?: true
 }
 
 export type PostMinAggregateInputType = {
   id?: true
   userId?: true
   text?: true
-  viewsCount?: true
+  totalViews?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -85,7 +85,7 @@ export type PostMaxAggregateInputType = {
   id?: true
   userId?: true
   text?: true
-  viewsCount?: true
+  totalViews?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -95,7 +95,7 @@ export type PostCountAggregateInputType = {
   userId?: true
   text?: true
   imageUrls?: true
-  viewsCount?: true
+  totalViews?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -192,7 +192,7 @@ export type PostGroupByOutputType = {
   userId: string
   text: string | null
   imageUrls: string[]
-  viewsCount: number
+  totalViews: number
   createdAt: Date
   updatedAt: Date
   _count: PostCountAggregateOutputType | null
@@ -225,7 +225,7 @@ export type PostWhereInput = {
   userId?: Prisma.StringFilter<"Post"> | string
   text?: Prisma.StringNullableFilter<"Post"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Post">
-  viewsCount?: Prisma.IntFilter<"Post"> | number
+  totalViews?: Prisma.IntFilter<"Post"> | number
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -241,7 +241,7 @@ export type PostOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   text?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -260,7 +260,7 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Post"> | string
   text?: Prisma.StringNullableFilter<"Post"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Post">
-  viewsCount?: Prisma.IntFilter<"Post"> | number
+  totalViews?: Prisma.IntFilter<"Post"> | number
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -276,7 +276,7 @@ export type PostOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   text?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
@@ -294,7 +294,7 @@ export type PostScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Post"> | string
   text?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Post">
-  viewsCount?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  totalViews?: Prisma.IntWithAggregatesFilter<"Post"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
 }
@@ -303,7 +303,7 @@ export type PostCreateInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -319,7 +319,7 @@ export type PostUncheckedCreateInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -333,7 +333,7 @@ export type PostUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -349,7 +349,7 @@ export type PostUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -364,7 +364,7 @@ export type PostCreateManyInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -373,7 +373,7 @@ export type PostUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -383,7 +383,7 @@ export type PostUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -411,20 +411,20 @@ export type PostCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   text?: Prisma.SortOrder
   imageUrls?: Prisma.SortOrder
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PostAvgOrderByAggregateInput = {
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
 }
 
 export type PostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   text?: Prisma.SortOrder
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -433,13 +433,13 @@ export type PostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   text?: Prisma.SortOrder
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PostSumOrderByAggregateInput = {
-  viewsCount?: Prisma.SortOrder
+  totalViews?: Prisma.SortOrder
 }
 
 export type PostListRelationFilter = {
@@ -587,7 +587,7 @@ export type PostCreateWithoutCommentsInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -602,7 +602,7 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
@@ -631,7 +631,7 @@ export type PostUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -646,7 +646,7 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
@@ -659,7 +659,7 @@ export type PostCreateWithoutLikesInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -674,7 +674,7 @@ export type PostUncheckedCreateWithoutLikesInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -703,7 +703,7 @@ export type PostUpdateWithoutLikesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -718,7 +718,7 @@ export type PostUncheckedUpdateWithoutLikesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -731,7 +731,7 @@ export type PostCreateWithoutNotificationsInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -746,7 +746,7 @@ export type PostUncheckedCreateWithoutNotificationsInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -775,7 +775,7 @@ export type PostUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -790,7 +790,7 @@ export type PostUncheckedUpdateWithoutNotificationsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -803,7 +803,7 @@ export type PostCreateWithoutRepostsInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -818,7 +818,7 @@ export type PostUncheckedCreateWithoutRepostsInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -847,7 +847,7 @@ export type PostUpdateWithoutRepostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -862,7 +862,7 @@ export type PostUncheckedUpdateWithoutRepostsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -875,7 +875,7 @@ export type PostCreateWithoutSavesInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -890,7 +890,7 @@ export type PostUncheckedCreateWithoutSavesInput = {
   userId: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -919,7 +919,7 @@ export type PostUpdateWithoutSavesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -934,7 +934,7 @@ export type PostUncheckedUpdateWithoutSavesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -947,7 +947,7 @@ export type PostCreateWithoutUserInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
@@ -961,7 +961,7 @@ export type PostUncheckedCreateWithoutUserInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -1005,7 +1005,7 @@ export type PostScalarWhereInput = {
   userId?: Prisma.StringFilter<"Post"> | string
   text?: Prisma.StringNullableFilter<"Post"> | string | null
   imageUrls?: Prisma.StringNullableListFilter<"Post">
-  viewsCount?: Prisma.IntFilter<"Post"> | number
+  totalViews?: Prisma.IntFilter<"Post"> | number
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Post"> | Date | string
 }
@@ -1014,7 +1014,7 @@ export type PostCreateManyUserInput = {
   id?: string
   text?: string | null
   imageUrls?: Prisma.PostCreateimageUrlsInput | string[]
-  viewsCount?: number
+  totalViews?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1023,7 +1023,7 @@ export type PostUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
@@ -1037,7 +1037,7 @@ export type PostUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -1051,7 +1051,7 @@ export type PostUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrls?: Prisma.PostUpdateimageUrlsInput | string[]
-  viewsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalViews?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1128,7 +1128,7 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userId?: boolean
   text?: boolean
   imageUrls?: boolean
-  viewsCount?: boolean
+  totalViews?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1145,7 +1145,7 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   text?: boolean
   imageUrls?: boolean
-  viewsCount?: boolean
+  totalViews?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1156,7 +1156,7 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   text?: boolean
   imageUrls?: boolean
-  viewsCount?: boolean
+  totalViews?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1167,12 +1167,12 @@ export type PostSelectScalar = {
   userId?: boolean
   text?: boolean
   imageUrls?: boolean
-  viewsCount?: boolean
+  totalViews?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "text" | "imageUrls" | "viewsCount" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "text" | "imageUrls" | "totalViews" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
@@ -1204,7 +1204,7 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userId: string
     text: string | null
     imageUrls: string[]
-    viewsCount: number
+    totalViews: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["post"]>
@@ -1640,7 +1640,7 @@ export interface PostFieldRefs {
   readonly userId: Prisma.FieldRef<"Post", 'String'>
   readonly text: Prisma.FieldRef<"Post", 'String'>
   readonly imageUrls: Prisma.FieldRef<"Post", 'String[]'>
-  readonly viewsCount: Prisma.FieldRef<"Post", 'Int'>
+  readonly totalViews: Prisma.FieldRef<"Post", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Post", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Post", 'DateTime'>
 }
