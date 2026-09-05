@@ -344,7 +344,7 @@ export class UsersService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         }
       }
     });
@@ -456,7 +456,7 @@ export class UsersService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         },
       };
     });
@@ -582,7 +582,7 @@ export class UsersService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         },
       };
     });
@@ -708,7 +708,7 @@ export class UsersService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         },
       };
     });
