@@ -3,7 +3,7 @@ model Post {
   userId     String   @map("user_id")
   text       String?
   imageUrls  String[] @default([]) @map("image_urls")
-  viewsCount Int      @default(0) @map("views_count")
+  totalViews Int      @default(0) @map("total_views")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
