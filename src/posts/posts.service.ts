@@ -125,7 +125,7 @@ export class PostsService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         },
       };
     });
@@ -262,7 +262,7 @@ export class PostsService {
         viewer: {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
-          isFavorited: saves.length > 0,
+          isSaved: saves.length > 0,
         },        
       };
     });
@@ -441,7 +441,7 @@ export class PostsService {
     });
 
     return {
-      isFavorited: !existingSave,
+      isSaved: !existingSave,
       totalSaves,
     }
   }
