@@ -446,17 +446,19 @@ export class PostsService {
     }
   }
 
-  async findComments({
-    postId,
-    authUserId,
-    page,
-    limit,
-  }: {
-    postId: string;
-    authUserId?: string;
-    page: number;
-    limit: number;
-  }) {
+  async findComments(
+    {
+      postId,
+      authUserId,
+      page,
+      limit,
+    }: {
+      postId: string;
+      authUserId?: string;
+      page: number;
+      limit: number;
+    }
+  ) {
     const viewerId = authUserId ?? "__unauthenticated__";
     const skip = (page - 1) * limit;
 
@@ -468,6 +470,11 @@ export class PostsService {
         },
         include: {
           user: {
+            omit: {
+              password: true,
+            },
+          },
+          mentionedUser: {
             omit: {
               password: true,
             },
@@ -488,7 +495,7 @@ export class PostsService {
           },
         },
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
         skip,
         take: limit,
@@ -507,19 +514,21 @@ export class PostsService {
         _count,
         user,
         likes,
+        mentionedUser,
         ...commentFields
       } = c;
 
       return {
         ...commentFields,
         user,
+        mentionedUser,
         meta: {
           totalLikes: _count.likes,
           totalReplies: _count.replies,
         },
         viewer: {
           isLiked: likes.length > 0,
-        },
+        }
       };
     });
 
@@ -530,7 +539,7 @@ export class PostsService {
         page,
         limit,
         lastPage: Math.ceil(total / limit),
-      },
+      }
     };
   }
 }
