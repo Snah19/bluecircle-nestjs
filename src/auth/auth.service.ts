@@ -23,7 +23,7 @@ export class AuthService {
     private prismaService: PrismaService,
   ){}
 
-  async register(dto: RegisterDto) {
+  async createAccount(dto: RegisterDto) {
     const existing = await this.prismaService.user.findUnique({
       where: {
         email: dto.email,
@@ -49,7 +49,7 @@ export class AuthService {
     return user;
   }
 
-  async login(
+  async signIn(
     {
       dto,
       meta,
@@ -98,7 +98,7 @@ export class AuthService {
     };
   }
 
-  async logout(plaintextToken: string) {
+  async signOut(plaintextToken: string) {
     const tokenHash = hashToken(plaintextToken);
     await this.prismaService.authToken.deleteMany({
       where: {
