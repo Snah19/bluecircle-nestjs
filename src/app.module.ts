@@ -10,12 +10,14 @@ import { UploadImagesModule } from './upload-images/upload-images..module';
 import { AuthModule } from './auth/auth.module';
 import { FollowsModudle } from './follows/follows.module';
 import { CommentsModule } from './comments/comments.module';
+import { MeModule } from './me/me.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     UsersModule,
+    MeModule,
     PostsModule,
     FollowsModudle,
     CommentsModule,
