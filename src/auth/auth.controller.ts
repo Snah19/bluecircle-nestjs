@@ -18,17 +18,17 @@ import { RegisterDto } from "./dto/register.dto";
 export class AuthController {
   constructor(private authService: AuthService){}
 
-  @Post("register")
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+  @Post("create-account")
+  createAccount(@Body() dto: RegisterDto) {
+    return this.authService.createAccount(dto);
   }
 
-  @Post("login")
-  login(
+  @Post("sign-in")
+  signIn(
     @Body() dto: LoginDto,
     @Req() req: Request,
   ) {
-    return this.authService.login({
+    return this.authService.signIn({
       dto,
       meta: {
         userAgent: req.headers["user-agent"],
@@ -37,11 +37,11 @@ export class AuthController {
     });
   }
 
-  @Post("logout")
+  @Post("sign-out")
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard)
-  async logout(@Headers("authorization") authHeader: string) {
+  async signOut(@Headers("authorization") authHeader: string) {
     const token = authHeader.slice("Bearer ".length).trim();
-    await this.authService.logout(token);
+    await this.authService.signOut(token);
   }
 }
