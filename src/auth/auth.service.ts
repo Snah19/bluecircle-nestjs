@@ -68,7 +68,7 @@ export class AuthService {
     });
 
     if (!userData) {
-      throw new NotFoundException("Can't find a user with this email.");
+      throw new NotFoundException("Can't find a user with this email");
     }
 
     const { password, ...user } = userData;
@@ -88,7 +88,7 @@ export class AuthService {
         tokenHash,
         expiresAt: new Date(Date.now() + TOKEN_TTL_MS),
         userAgent: meta?.userAgent,
-        ipAddress: meta?.ip,       
+        ipAddress: meta?.ip,
       }
     });
 
