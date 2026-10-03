@@ -1,6 +1,7 @@
 // src/posts/posts.service.ts
 
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -36,6 +37,33 @@ export class PostsService {
     });
 
     return postData;
+  }
+
+  async deletePost({
+    authUserId,
+    postId,
+  }: {
+    authUserId: string;
+    postId: string;
+  }) {
+    const post = await this.prismaService.post.findUnique({
+      where: { id: postId },
+      select: { id: true, userId: true },
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (post.userId !== authUserId) {
+      throw new ForbiddenException('You are not allowed to delete this post');
+    }
+
+    await this.prismaService.post.delete({
+      where: { id: postId },
+    });
+
+    return { message: 'Post deleted successfully' };
   }
 
   async findDiscoverPosts(
@@ -154,7 +182,7 @@ export class PostsService {
   ) {
     const viewerId = authUserId ?? "__unauthenticated__";
     const skip = (page - 1) * limit;
-    
+
     const followings = await this.prismaService.follow.findMany({
       where: {
         followerId: viewerId,
@@ -263,7 +291,7 @@ export class PostsService {
           isLiked: likes.length > 0,
           isReposted: reposts.length > 0,
           isSaved: saves.length > 0,
-        },        
+        },
       };
     });
 
@@ -275,7 +303,7 @@ export class PostsService {
         limit,
         lastPage: Math.ceil(total / limit),
       }
-    }    
+    }
   }
 
   async toggleLike(
@@ -397,7 +425,7 @@ export class PostsService {
     } : {
       postId: string;
       authUserId: string;
-    }   
+    }
   ) {
     const post = await this.prismaService.post.findUnique({
       where: {

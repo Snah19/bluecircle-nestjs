@@ -1,6 +1,6 @@
 // src/posts/posts.controller.ts
 
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
@@ -25,6 +25,18 @@ export class PostsController {
     });
   }
 
+  @Delete(':id')
+  @UseGuards(AuthGuard)
+  deletePost(
+    @AuthUser() user: { id: string },
+    @Param('id') id: string,
+  ) {
+    return this.postsService.deletePost({
+      authUserId: user.id,
+      postId: id,
+    });
+  }
+
   @Get('discover')
   @UseGuards(OptionalAuthGuard)
   async findDiscoverPosts(
@@ -42,12 +54,12 @@ export class PostsController {
   @UseGuards(OptionalAuthGuard)
   async findFollowingPosts(
     @Query() query: PaginatePostsDto,
-    @AuthUser() user?: { id: string },    
+    @AuthUser() user?: { id: string },
   ) {
     return this.postsService.findFollowingPosts({
       authUserId: user?.id,
       page: query.page,
-      limit: query.limit,   
+      limit: query.limit,
     });
   }
 
