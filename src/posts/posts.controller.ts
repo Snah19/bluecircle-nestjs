@@ -1,6 +1,6 @@
 // src/posts/posts.controller.ts
 
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
@@ -8,6 +8,7 @@ import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { PaginatePostsDto } from "./dto/paginate-posts.dto";
 import { CreatePostDto } from "./dto/create-posts.dto";
 import { PaginateCommentsDto } from "src/comments/dto/paginate-comments.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
 
 @Controller('posts')
 export class PostsController {
@@ -21,6 +22,20 @@ export class PostsController {
   ) {
     return this.postsService.createPost({
       authUserId: user.id,
+      dto,
+    });
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard)
+  updatePost(
+    @AuthUser() user: { id: string },
+    @Param('id') id: string,
+    @Body() dto: UpdatePostDto,
+  ) {
+    return this.postsService.updatePost({
+      authUserId: user.id,
+      postId: id,
       dto,
     });
   }
