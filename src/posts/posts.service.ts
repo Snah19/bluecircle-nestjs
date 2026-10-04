@@ -1,16 +1,22 @@
 // src/posts/posts.service.ts
 
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-posts.dto';
+import { CloudImagesService } from 'src/cloud-images/cloud-images.service';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostsService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private cloudImagesService: CloudImagesService,
+  ) {}
 
   async createPost(
     {
@@ -64,6 +70,57 @@ export class PostsService {
     });
 
     return { message: 'Post deleted successfully' };
+  }
+
+  async updatePost({
+    authUserId,
+    postId,
+    dto,
+  }: {
+    authUserId: string;
+    postId: string;
+    dto: UpdatePostDto;
+  }) {
+    const post = await this.prismaService.post.findUnique({
+      where: { id: postId },
+      select: { id: true, userId: true, imageUrls: true },
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (post.userId !== authUserId) {
+      throw new ForbiddenException('You are not allowed to update this post');
+    }
+
+    const text = dto.text?.trim() || null;
+    const imageUrls = dto.imageUrls ?? [];
+
+    if (!text && imageUrls.length === 0) {
+      throw new BadRequestException('A post must have text or at least one image');
+    }
+
+    const imageUrlsToDelete = post.imageUrls.filter((url) => !imageUrls.includes(url));
+
+    const updatedPost = await this.prismaService.post.update({
+      where: { id: postId },
+      data: { text, imageUrls },
+      include: {
+        user: {
+          omit: { password: true },
+        },
+      },
+    });
+
+    try {
+      await this.cloudImagesService.deleteImages(imageUrlsToDelete);
+    }
+    catch (error) {
+      console.error('Failed to delete images from cloud:', error);
+    }
+
+    return updatedPost;
   }
 
   async findDiscoverPosts(
