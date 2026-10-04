@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 
 interface UploadedFile {
@@ -63,4 +63,32 @@ export class CloudImagesService {
       return u.value;
     });
   }
+
+async deleteImages(imageUrls: string[]) {
+  const prefix = `${this.publicUrl}/`;
+
+  const keys = imageUrls
+    .filter((url) => url.startsWith(prefix))
+    .map((url) => url.slice(prefix.length));
+
+  if (!keys.length) {
+    return '0/0 image(s) have been deleted';
+  }
+
+  const result = await this.s3.send(
+    new DeleteObjectsCommand({
+      Bucket: this.bucket,
+      Delete: {
+        Objects: keys.map((Key) => ({ Key })),
+        Quiet: true,
+      },
+    }),
+  );
+
+  const deleted = keys.length - (result.Errors?.length ?? 0);
+
+  return {
+    message: `${deleted}/${keys.length} image(s) have been deleted`,
+  };
+}
 }

@@ -9,5 +9,6 @@ import { AuthModule } from "src/auth/auth.module";
   imports: [AuthModule],
   providers: [CloudImagesService],
   controllers: [CloudImagesController],
+  exports: [CloudImagesService],
 })
 export class CloudImagesModule {}
