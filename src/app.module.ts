@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { FollowsModudle } from './follows/follows.module';
 import { CommentsModule } from './comments/comments.module';
 import { MeModule } from './me/me.module';
+import { CloudImagesModule } from './cloud-images/cloud-images.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MeModule } from './me/me.module';
     FollowsModudle,
     CommentsModule,
     UploadImagesModule,
+    CloudImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

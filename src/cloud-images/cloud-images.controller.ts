@@ -1,0 +1,42 @@
+import { Body, Controller, Delete, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { FilesInterceptor } from "@nestjs/platform-express";
+import { CloudImagesService } from "./cloud-images.service";
+import { AuthGuard } from "src/auth/auth.guard";
+import { CreatePostDto } from "./dto/delete-images.dto";
+
+interface UploadedFile {
+  originalname: string;
+  mimetype: string;
+  buffer: Buffer;
+};
+
+@Controller('cloud-images')
+export class CloudImagesController {
+  constructor(private cloudImagesService: CloudImagesService) {}
+
+  @Post()
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FilesInterceptor('files'))
+  async uploadImages(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /(jpeg|png|webp|gif)$/ }),
+        ],
+      })
+    ) files: UploadedFile[],
+  ) {
+    const urls = await this.cloudImagesService.uploadImages(files);
+
+    return urls;
+  }
+
+  @Delete()
+  @UseGuards(AuthGuard)
+  async deleteImages(
+    @Body() dto: CreatePostDto,
+  ) {
+    return this.cloudImagesService.deleteImages(dto.imageUrls);
+  }
+}
