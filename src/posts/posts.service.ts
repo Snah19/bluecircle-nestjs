@@ -54,7 +54,11 @@ export class PostsService {
   }) {
     const post = await this.prismaService.post.findUnique({
       where: { id: postId },
-      select: { id: true, userId: true },
+      select: {
+        id: true,
+        userId: true,
+        imageUrls: true,
+      },
     });
 
     if (!post) {
@@ -68,6 +72,13 @@ export class PostsService {
     await this.prismaService.post.delete({
       where: { id: postId },
     });
+
+    try {
+      await this.cloudImagesService.deleteImages(post.imageUrls);
+    }
+    catch (error) {
+      console.error('Failed to delete images from cloud:', error);
+    }
 
     return { message: 'Post deleted successfully' };
   }
