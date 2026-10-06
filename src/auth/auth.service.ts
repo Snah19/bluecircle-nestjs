@@ -147,4 +147,25 @@ export class AuthService {
 
     return authToken.user;
   }
+
+  async resetPassword(userId: string, newPassword: string) {
+    const user = await this.prismaService.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    await this.prismaService.authToken.deleteMany({
+      where: { userId },
+    });
+
+    return { message: 'Password resetted successfully' };
+  }
 }
