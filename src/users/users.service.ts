@@ -28,6 +28,15 @@ export class UsersService {
     username: string
   ) {
     const user = await this.prismaService.user.findUnique({
+      include: {
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+            posts: true,
+          }
+        }
+      },
       where: { username },
       omit: { password: true },
     });
@@ -36,7 +45,16 @@ export class UsersService {
       throw new NotFoundException("User not found");
     }
 
-    return user;
+    const { _count, ...rest } = {
+      ...user,
+      meta: {
+        totalFollowers: user._count.followers,
+        totalFollowing: user._count.following,
+        totalPosts: user._count.posts,
+      }
+    };
+
+    return rest;
   }
 
   async findFollowers(
