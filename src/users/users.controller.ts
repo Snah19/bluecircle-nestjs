@@ -68,7 +68,7 @@ export class UsersController {
   findRepostedPosts(
     @Param('username') username: string,
     @Query() query: PaginatePostsDto,
-    @AuthUser() user?: { id: string },    
+    @AuthUser() user?: { id: string },
   ){
     return this.userService.findRepostedPosts({
       username,
@@ -83,13 +83,13 @@ export class UsersController {
   findLikedPosts(
     @Param('username') username: string,
     @Query() query: PaginatePostsDto,
-    @AuthUser() user?: { id: string },    
+    @AuthUser() user?: { id: string },
   ) {
     return this.userService.findLikedPosts({
       username,
       authUserId: user?.id,
       page: query.page,
-      limit: query.limit,    
+      limit: query.limit,
     });
   }
 
@@ -98,13 +98,13 @@ export class UsersController {
   findSavedPosts(
     @Param('username') username: string,
     @Query() query: PaginatePostsDto,
-    @AuthUser() user?: { id: string },    
+    @AuthUser() user?: { id: string },
   ) {
     return this.userService.findSavedPosts({
       username,
       authUserId: user?.id,
       page: query.page,
-      limit: query.limit,    
+      limit: query.limit,
     });
   }
 }

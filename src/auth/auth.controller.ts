@@ -6,13 +6,15 @@ import {
   Headers,
   UseGuards,
   HttpCode,
-  HttpStatus
+  HttpStatus,
+  Param
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { type Request } from 'express';
 import { AuthGuard } from "./auth.guard";
 import { RegisterDto } from "./dto/register.dto";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -44,4 +46,13 @@ export class AuthController {
     const token = authHeader.slice("Bearer ".length).trim();
     await this.authService.signOut(token);
   }
+
+  @Post("reset-password/:userId")
+  resetPassword(
+    @Param('userId') userId: string,
+    @Body() dto: ResetPasswordDto,
+  ) {
+    return this.authService.resetPassword(userId, dto.newPassword);
+  }
+
 }
