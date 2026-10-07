@@ -13,13 +13,13 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsString()
   @MaxLength(256)
-  bio!: string;
+  bio!: string | null;
 
   @IsOptional()
   @IsUrl()
-  profileImageUrl!: string;
+  profileImageUrl!: string | null;
 
   @IsOptional()
   @IsUrl()
-  coverImageUrl!: string;
+  coverImageUrl!: string | null;
 }

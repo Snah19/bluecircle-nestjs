@@ -1,6 +1,7 @@
 // src/users/users.service.ts
 
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { CloudImagesService } from "src/cloud-images/cloud-images.service";
 import { PrismaService } from "src/prisma/prisma.service";
 
 const getRelationshipStatus = (
@@ -22,7 +23,10 @@ const getRelationshipStatus = (
 
 @Injectable()
 export class UsersService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private cloudImagesService: CloudImagesService,
+  ) {}
 
   async findByUsername(
     username: string
@@ -751,10 +755,24 @@ export class UsersService {
   }: {
     authUserId: string;
     fullname: string;
-    bio?: string;
-    profileImageUrl?: string;
-    coverImageUrl?: string;
+    bio?: string | null;
+    profileImageUrl?: string | null;
+    coverImageUrl?: string | null;
   }) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: authUserId,
+      },
+      select: {
+        profileImageUrl: true,
+        coverImageUrl: true,
+      }
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
     await this.prismaService.user.update({
       where: {
         id: authUserId,
@@ -766,6 +784,23 @@ export class UsersService {
         coverImageUrl,
       }
     });
+
+    const imageUrlsToDelete: string[] = [];
+
+    if (profileImageUrl && user.profileImageUrl) {
+      imageUrlsToDelete.push(user.profileImageUrl);
+    }
+
+    if (coverImageUrl && user.coverImageUrl) {
+      imageUrlsToDelete.push(user.coverImageUrl);
+    }
+
+    try {
+      await this.cloudImagesService.deleteImages(imageUrlsToDelete);
+    }
+    catch (error) {
+      console.error('Failed to delete images from cloud:', error);
+    }
 
     return { message: 'Profile updated successfully' };
   }  
