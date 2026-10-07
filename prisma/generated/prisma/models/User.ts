@@ -34,7 +34,6 @@ export type UserMinAggregateOutputType = {
   profileImageUrl: string | null
   coverImageUrl: string | null
   bio: string | null
-  link: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -49,7 +48,6 @@ export type UserMaxAggregateOutputType = {
   profileImageUrl: string | null
   coverImageUrl: string | null
   bio: string | null
-  link: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,7 +62,6 @@ export type UserCountAggregateOutputType = {
   profileImageUrl: number
   coverImageUrl: number
   bio: number
-  link: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -81,7 +78,6 @@ export type UserMinAggregateInputType = {
   profileImageUrl?: true
   coverImageUrl?: true
   bio?: true
-  link?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -96,7 +92,6 @@ export type UserMaxAggregateInputType = {
   profileImageUrl?: true
   coverImageUrl?: true
   bio?: true
-  link?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -111,7 +106,6 @@ export type UserCountAggregateInputType = {
   profileImageUrl?: true
   coverImageUrl?: true
   bio?: true
-  link?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -196,10 +190,9 @@ export type UserGroupByOutputType = {
   email: string
   password: string
   role: $Enums.Role
-  profileImageUrl: string
-  coverImageUrl: string
-  bio: string
-  link: string
+  profileImageUrl: string | null
+  coverImageUrl: string | null
+  bio: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -232,10 +225,9 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  profileImageUrl?: Prisma.StringFilter<"User"> | string
-  coverImageUrl?: Prisma.StringFilter<"User"> | string
-  bio?: Prisma.StringFilter<"User"> | string
-  link?: Prisma.StringFilter<"User"> | string
+  profileImageUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  coverImageUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
@@ -259,10 +251,9 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  profileImageUrl?: Prisma.SortOrder
-  coverImageUrl?: Prisma.SortOrder
-  bio?: Prisma.SortOrder
-  link?: Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
@@ -289,10 +280,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   fullname?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  profileImageUrl?: Prisma.StringFilter<"User"> | string
-  coverImageUrl?: Prisma.StringFilter<"User"> | string
-  bio?: Prisma.StringFilter<"User"> | string
-  link?: Prisma.StringFilter<"User"> | string
+  profileImageUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  coverImageUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  bio?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
@@ -316,10 +306,9 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  profileImageUrl?: Prisma.SortOrder
-  coverImageUrl?: Prisma.SortOrder
-  bio?: Prisma.SortOrder
-  link?: Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -337,10 +326,9 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-  profileImageUrl?: Prisma.StringWithAggregatesFilter<"User"> | string
-  coverImageUrl?: Prisma.StringWithAggregatesFilter<"User"> | string
-  bio?: Prisma.StringWithAggregatesFilter<"User"> | string
-  link?: Prisma.StringWithAggregatesFilter<"User"> | string
+  profileImageUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  coverImageUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -352,10 +340,9 @@ export type UserCreateInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -379,10 +366,9 @@ export type UserUncheckedCreateInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -406,10 +392,9 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -433,10 +418,9 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -460,10 +444,9 @@ export type UserCreateManyInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -475,10 +458,9 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -490,10 +472,9 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -518,7 +499,6 @@ export type UserCountOrderByAggregateInput = {
   profileImageUrl?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  link?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -533,7 +513,6 @@ export type UserMaxOrderByAggregateInput = {
   profileImageUrl?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  link?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -548,7 +527,6 @@ export type UserMinOrderByAggregateInput = {
   profileImageUrl?: Prisma.SortOrder
   coverImageUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  link?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -734,10 +712,9 @@ export type UserCreateWithoutAuthTokensInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -760,10 +737,9 @@ export type UserUncheckedCreateWithoutAuthTokensInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -802,10 +778,9 @@ export type UserUpdateWithoutAuthTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -828,10 +803,9 @@ export type UserUncheckedUpdateWithoutAuthTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -854,10 +828,9 @@ export type UserCreateWithoutCommentLikesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -880,10 +853,9 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -922,10 +894,9 @@ export type UserUpdateWithoutCommentLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -948,10 +919,9 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -974,10 +944,9 @@ export type UserCreateWithoutCommentsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1000,10 +969,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1031,10 +999,9 @@ export type UserCreateWithoutMentionedInCommentsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1057,10 +1024,9 @@ export type UserUncheckedCreateWithoutMentionedInCommentsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1099,10 +1065,9 @@ export type UserUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1125,10 +1090,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1162,10 +1126,9 @@ export type UserUpdateWithoutMentionedInCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1188,10 +1151,9 @@ export type UserUncheckedUpdateWithoutMentionedInCommentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1214,10 +1176,9 @@ export type UserCreateWithoutFollowingInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1240,10 +1201,9 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1271,10 +1231,9 @@ export type UserCreateWithoutFollowersInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1297,10 +1256,9 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1339,10 +1297,9 @@ export type UserUpdateWithoutFollowingInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1365,10 +1322,9 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1402,10 +1358,9 @@ export type UserUpdateWithoutFollowersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1428,10 +1383,9 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1454,10 +1408,9 @@ export type UserCreateWithoutLikesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1480,10 +1433,9 @@ export type UserUncheckedCreateWithoutLikesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1522,10 +1474,9 @@ export type UserUpdateWithoutLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1548,10 +1499,9 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1574,10 +1524,9 @@ export type UserCreateWithoutSentNotificationsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1600,10 +1549,9 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1631,10 +1579,9 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1657,10 +1604,9 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -1699,10 +1645,9 @@ export type UserUpdateWithoutSentNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1725,10 +1670,9 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1762,10 +1706,9 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -1788,10 +1731,9 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -1814,10 +1756,9 @@ export type UserCreateWithoutPostsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -1840,10 +1781,9 @@ export type UserUncheckedCreateWithoutPostsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -1882,10 +1822,9 @@ export type UserUpdateWithoutPostsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -1908,10 +1847,9 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -1934,10 +1872,9 @@ export type UserCreateWithoutRepostsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -1960,10 +1897,9 @@ export type UserUncheckedCreateWithoutRepostsInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -2002,10 +1938,9 @@ export type UserUpdateWithoutRepostsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -2028,10 +1963,9 @@ export type UserUncheckedUpdateWithoutRepostsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -2054,10 +1988,9 @@ export type UserCreateWithoutSavesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
@@ -2080,10 +2013,9 @@ export type UserUncheckedCreateWithoutSavesInput = {
   email: string
   password: string
   role?: $Enums.Role
-  profileImageUrl?: string
-  coverImageUrl?: string
-  bio?: string
-  link?: string
+  profileImageUrl?: string | null
+  coverImageUrl?: string | null
+  bio?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
@@ -2122,10 +2054,9 @@ export type UserUpdateWithoutSavesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
@@ -2148,10 +2079,9 @@ export type UserUncheckedUpdateWithoutSavesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  coverImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.StringFieldUpdateOperationsInput | string
-  link?: Prisma.StringFieldUpdateOperationsInput | string
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
@@ -2307,7 +2237,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   profileImageUrl?: boolean
   coverImageUrl?: boolean
   bio?: boolean
-  link?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
@@ -2335,7 +2264,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   profileImageUrl?: boolean
   coverImageUrl?: boolean
   bio?: boolean
-  link?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2350,7 +2278,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   profileImageUrl?: boolean
   coverImageUrl?: boolean
   bio?: boolean
-  link?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2365,12 +2292,11 @@ export type UserSelectScalar = {
   profileImageUrl?: boolean
   coverImageUrl?: boolean
   bio?: boolean
-  link?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "fullname" | "email" | "password" | "role" | "profileImageUrl" | "coverImageUrl" | "bio" | "link" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "fullname" | "email" | "password" | "role" | "profileImageUrl" | "coverImageUrl" | "bio" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
@@ -2412,10 +2338,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     password: string
     role: $Enums.Role
-    profileImageUrl: string
-    coverImageUrl: string
-    bio: string
-    link: string
+    profileImageUrl: string | null
+    coverImageUrl: string | null
+    bio: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2862,7 +2787,6 @@ export interface UserFieldRefs {
   readonly profileImageUrl: Prisma.FieldRef<"User", 'String'>
   readonly coverImageUrl: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
-  readonly link: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

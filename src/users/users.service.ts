@@ -755,9 +755,9 @@ export class UsersService {
   }: {
     authUserId: string;
     fullname: string;
-    bio?: string;
-    profileImageUrl?: string;
-    coverImageUrl?: string;
+    bio?: string | null;
+    profileImageUrl?: string | null;
+    coverImageUrl?: string | null;
   }) {
     const user = await this.prismaService.user.findUnique({
       where: {
@@ -787,11 +787,11 @@ export class UsersService {
 
     const imageUrlsToDelete: string[] = [];
 
-    if (profileImageUrl) {
+    if (profileImageUrl && user.profileImageUrl) {
       imageUrlsToDelete.push(user.profileImageUrl);
     }
 
-    if (coverImageUrl) {
+    if (coverImageUrl && user.coverImageUrl) {
       imageUrlsToDelete.push(user.coverImageUrl);
     }
 

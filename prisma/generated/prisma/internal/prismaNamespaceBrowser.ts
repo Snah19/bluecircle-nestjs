@@ -195,7 +195,6 @@ export const UserScalarFieldEnum = {
   profileImageUrl: 'profileImageUrl',
   coverImageUrl: 'coverImageUrl',
   bio: 'bio',
-  link: 'link',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
