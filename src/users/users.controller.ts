@@ -14,10 +14,15 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get('/:username')
+  @UseGuards(OptionalAuthGuard)
   findByUsername(
-    @Param('username') username: string
+    @Param('username') username: string,
+    @AuthUser() user?: { id: string },
   ) {
-    return this.userService.findByUsername(username);
+    return this.userService.findByUsername({
+      username,
+      authUserId: user?.id,
+    });
   }
 
   @Get("/:username/followers")
