@@ -28,9 +28,13 @@ export class UsersService {
     private cloudImagesService: CloudImagesService,
   ) {}
 
-  async findByUsername(
-    username: string
-  ) {
+  async findByUsername({
+    username,
+    authUserId,
+  }: {
+    username: string;
+    authUserId?: string;
+  }) {
     const user = await this.prismaService.user.findUnique({
       include: {
         _count: {
@@ -38,8 +42,8 @@ export class UsersService {
             followers: true,
             following: true,
             posts: true,
-          }
-        }
+          },
+        },
       },
       where: { username },
       omit: { password: true },
@@ -49,13 +53,49 @@ export class UsersService {
       throw new NotFoundException("User not found");
     }
 
+    let isFollowedByViewer = false;
+    let isFollowingViewer = false;
+
+    if (authUserId && authUserId !== user.id) {
+      const [viewerFollowsUser, userFollowsViewer] = await Promise.all([
+        this.prismaService.follow.findUnique({
+          where: {
+            followerId_followingId: {
+              followerId: authUserId,
+              followingId: user.id,
+            },
+          },
+          select: { followerId: true },
+        }),
+
+        this.prismaService.follow.findUnique({
+          where: {
+            followerId_followingId: {
+              followerId: user.id,
+              followingId: authUserId,
+            },
+          },
+          select: { followerId: true },
+        }),
+      ]);
+
+      isFollowedByViewer = !!viewerFollowsUser;
+      isFollowingViewer = !!userFollowsViewer;
+    }
+
     const { _count, ...rest } = {
       ...user,
       meta: {
         totalFollowers: user._count.followers,
         totalFollowing: user._count.following,
         totalPosts: user._count.posts,
-      }
+      },
+      viewer: {
+        relationshipStatus: getRelationshipStatus(
+          isFollowedByViewer,
+          isFollowingViewer,
+        ),
+      },
     };
 
     return rest;
