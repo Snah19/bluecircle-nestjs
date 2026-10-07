@@ -10,16 +10,15 @@ model User {
   email           String   @unique
   password        String
   role            Role     @default(USER)
-  profileImageUrl String   @default("") @map("profile_image_url")
-  coverImageUrl   String   @default("") @map("cover_image_url")
-  bio             String   @default("")
-  link            String   @default("")
+  profileImageUrl String?  @map("profile_image_url")
+  coverImageUrl   String?  @map("cover_image_url")
+  bio             String?
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
   posts                 Post[]
   comments              Comment[]      @relation("CommentAuthor")
-  mentionedInComments Comment[] @relation("CommentMentionedUser")
+  mentionedInComments   Comment[]      @relation("CommentMentionedUser")
   likes                 Like[]
   reposts               Repost[]
   saves                 Save[]
