@@ -741,4 +741,32 @@ export class UsersService {
       }
     }
   }
+
+  async updateProfile({
+    authUserId,
+    fullname,
+    bio,
+    profileImageUrl,
+    coverImageUrl,
+  }: {
+    authUserId: string;
+    fullname: string;
+    bio?: string;
+    profileImageUrl?: string;
+    coverImageUrl?: string;
+  }) {
+    await this.prismaService.user.update({
+      where: {
+        id: authUserId,
+      },
+      data: {
+        fullname,
+        bio,
+        profileImageUrl,
+        coverImageUrl,
+      }
+    });
+
+    return { message: 'Profile updated successfully' };
+  }  
 }

@@ -1,24 +1,26 @@
 // src/users/users.controller.ts
 
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Query, UseGuards } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { PaginatePostsDto } from "src/posts/dto/paginate-posts.dto";
 import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
 import { PaginateFollowsDto } from "src/follows/dto/paginate-follows.dto";
+import { AuthGuard } from "src/auth/auth.guard";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
 
-@Controller('users/:username')
+@Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @Get()
+  @Get('/:username')
   findByUsername(
     @Param('username') username: string
   ) {
     return this.userService.findByUsername(username);
   }
 
-  @Get("followers")
+  @Get("/:username/followers")
   @UseGuards(OptionalAuthGuard)
   findFollowers(
     @Param('username') username: string,
@@ -33,7 +35,7 @@ export class UsersController {
     });
   }
 
-  @Get("followings")
+  @Get("/:username/followings")
   @UseGuards(OptionalAuthGuard)
   findFollowings(
     @Param('username') username: string,
@@ -48,7 +50,7 @@ export class UsersController {
     });
   }
 
-  @Get('posts')
+  @Get('/:username/posts')
   @UseGuards(OptionalAuthGuard)
   findPosts(
     @Param('username') username: string,
@@ -63,7 +65,7 @@ export class UsersController {
     });
   }
 
-  @Get('reposts')
+  @Get('/:username/reposts')
   @UseGuards(OptionalAuthGuard)
   findRepostedPosts(
     @Param('username') username: string,
@@ -78,7 +80,7 @@ export class UsersController {
     });
   }
 
-  @Get('likes')
+  @Get('/:username/likes')
   @UseGuards(OptionalAuthGuard)
   findLikedPosts(
     @Param('username') username: string,
@@ -93,7 +95,7 @@ export class UsersController {
     });
   }
 
-  @Get('saves')
+  @Get('/:username/saves')
   @UseGuards(OptionalAuthGuard)
   findSavedPosts(
     @Param('username') username: string,
@@ -105,6 +107,18 @@ export class UsersController {
       authUserId: user?.id,
       page: query.page,
       limit: query.limit,
+    });
+  }
+
+  @Patch('/profile')
+  @UseGuards(AuthGuard)
+  updateProfile(
+    @AuthUser() user: { id: string },
+    @Body() dto: UpdateProfileDto,
+  ) {
+    return this.userService.updateProfile({
+      authUserId: user.id,
+      ...dto,
     });
   }
 }
