@@ -100,21 +100,6 @@ export class UsersController {
     });
   }
 
-  @Get('/:username/saves')
-  @UseGuards(OptionalAuthGuard)
-  findSavedPosts(
-    @Param('username') username: string,
-    @Query() query: PaginatePostsDto,
-    @AuthUser() user?: { id: string },
-  ) {
-    return this.userService.findSavedPosts({
-      username,
-      authUserId: user?.id,
-      page: query.page,
-      limit: query.limit,
-    });
-  }
-
   @Patch('/profile')
   @UseGuards(AuthGuard)
   updateProfile(
