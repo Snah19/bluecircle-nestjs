@@ -374,6 +374,90 @@ export class PostsService {
     }
   }
 
+  async findPostDetail({
+    authUserId,
+    postId,
+  }: {
+    authUserId?: string;
+    postId: string;
+  }) {
+    const viewerId = authUserId ?? "__unauthenticated__";
+
+    const post = await this.prismaService.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        user: {
+          omit: {
+            password: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            reposts: true,
+            saves: true,
+            comments: true,
+          },
+        },
+        likes: {
+          where: {
+            userId: viewerId,
+          },
+          select: {
+            id: true,
+          },
+        },
+        reposts: {
+          where: {
+            userId: viewerId,
+          },
+          select: {
+            id: true,
+          },
+        },
+        saves: {
+          where: {
+            userId: viewerId,
+          },
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const {
+      _count,
+      user,
+      likes,
+      reposts,
+      saves,
+      ...postFields
+    } = post;
+
+    return {
+      ...postFields,
+      user,
+      meta: {
+        totalLikes: _count.likes,
+        totalReposts: _count.reposts,
+        totalSaves: _count.saves,
+        totalComments: _count.comments,
+      },
+      viewer: {
+        isLiked: likes.length > 0,
+        isReposted: reposts.length > 0,
+        isSaved: saves.length > 0,
+      },
+    };
+  }
+
   async toggleLike(
     {
       postId,
