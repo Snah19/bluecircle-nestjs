@@ -78,6 +78,18 @@ export class PostsController {
     });
   }
 
+  @Get(':id')
+  @UseGuards(OptionalAuthGuard)
+  async findPostDetail(
+    @Param('id') id: string,
+    @AuthUser() user?: { id: string },
+  ) {
+    return this.postsService.findPostDetail({
+      authUserId: user?.id,
+      postId: id,
+    });
+  }
+
   @Post(':id/likes')
   @UseGuards(AuthGuard)
   async toggleLike(
