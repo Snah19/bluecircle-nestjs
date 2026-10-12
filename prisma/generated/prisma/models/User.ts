@@ -232,7 +232,6 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
-  mentionedInComments?: Prisma.CommentListRelationFilter
   likes?: Prisma.LikeListRelationFilter
   reposts?: Prisma.RepostListRelationFilter
   saves?: Prisma.SaveListRelationFilter
@@ -258,7 +257,6 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
-  mentionedInComments?: Prisma.CommentOrderByRelationAggregateInput
   likes?: Prisma.LikeOrderByRelationAggregateInput
   reposts?: Prisma.RepostOrderByRelationAggregateInput
   saves?: Prisma.SaveOrderByRelationAggregateInput
@@ -287,7 +285,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
-  mentionedInComments?: Prisma.CommentListRelationFilter
   likes?: Prisma.LikeListRelationFilter
   reposts?: Prisma.RepostListRelationFilter
   saves?: Prisma.SaveListRelationFilter
@@ -347,7 +344,6 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -373,7 +369,6 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -399,7 +394,6 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -425,7 +419,6 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -482,11 +475,6 @@ export type UserUncheckedUpdateManyInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
-}
-
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -565,28 +553,12 @@ export type UserCreateNestedOneWithoutCommentsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserCreateNestedOneWithoutMentionedInCommentsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutMentionedInCommentsInput, Prisma.UserUncheckedCreateWithoutMentionedInCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMentionedInCommentsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
 export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
   upsert?: Prisma.UserUpsertWithoutCommentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
-}
-
-export type UserUpdateOneWithoutMentionedInCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutMentionedInCommentsInput, Prisma.UserUncheckedCreateWithoutMentionedInCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMentionedInCommentsInput
-  upsert?: Prisma.UserUpsertWithoutMentionedInCommentsInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMentionedInCommentsInput, Prisma.UserUpdateWithoutMentionedInCommentsInput>, Prisma.UserUncheckedUpdateWithoutMentionedInCommentsInput>
 }
 
 export type UserCreateNestedOneWithoutFollowingInput = {
@@ -719,7 +691,6 @@ export type UserCreateWithoutAuthTokensInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -744,7 +715,6 @@ export type UserUncheckedCreateWithoutAuthTokensInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -785,7 +755,6 @@ export type UserUpdateWithoutAuthTokensInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -810,7 +779,6 @@ export type UserUncheckedUpdateWithoutAuthTokensInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -835,7 +803,6 @@ export type UserCreateWithoutCommentLikesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -860,7 +827,6 @@ export type UserUncheckedCreateWithoutCommentLikesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -901,7 +867,6 @@ export type UserUpdateWithoutCommentLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -926,7 +891,6 @@ export type UserUncheckedUpdateWithoutCommentLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -950,7 +914,6 @@ export type UserCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -975,7 +938,6 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -990,61 +952,6 @@ export type UserUncheckedCreateWithoutCommentsInput = {
 export type UserCreateOrConnectWithoutCommentsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
-}
-
-export type UserCreateWithoutMentionedInCommentsInput = {
-  id?: string
-  username: string
-  fullname: string
-  email: string
-  password: string
-  role?: $Enums.Role
-  profileImageUrl?: string | null
-  coverImageUrl?: string | null
-  bio?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  posts?: Prisma.PostCreateNestedManyWithoutUserInput
-  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
-  reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
-  saves?: Prisma.SaveCreateNestedManyWithoutUserInput
-  commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutFromInput
-  receivedNotifications?: Prisma.NotificationCreateNestedManyWithoutToInput
-  authTokens?: Prisma.AuthTokenCreateNestedManyWithoutUserInput
-  following?: Prisma.FollowCreateNestedManyWithoutFollowerInput
-  followers?: Prisma.FollowCreateNestedManyWithoutFollowingInput
-}
-
-export type UserUncheckedCreateWithoutMentionedInCommentsInput = {
-  id?: string
-  username: string
-  fullname: string
-  email: string
-  password: string
-  role?: $Enums.Role
-  profileImageUrl?: string | null
-  coverImageUrl?: string | null
-  bio?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
-  reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
-  saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
-  commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutFromInput
-  receivedNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutToInput
-  authTokens?: Prisma.AuthTokenUncheckedCreateNestedManyWithoutUserInput
-  following?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
-  followers?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type UserCreateOrConnectWithoutMentionedInCommentsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutMentionedInCommentsInput, Prisma.UserUncheckedCreateWithoutMentionedInCommentsInput>
 }
 
 export type UserUpsertWithoutCommentsInput = {
@@ -1071,7 +978,6 @@ export type UserUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1096,68 +1002,6 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
-  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
-  reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
-  saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
-  commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutFromNestedInput
-  receivedNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutToNestedInput
-  authTokens?: Prisma.AuthTokenUncheckedUpdateManyWithoutUserNestedInput
-  following?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
-  followers?: Prisma.FollowUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type UserUpsertWithoutMentionedInCommentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutMentionedInCommentsInput, Prisma.UserUncheckedUpdateWithoutMentionedInCommentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutMentionedInCommentsInput, Prisma.UserUncheckedCreateWithoutMentionedInCommentsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutMentionedInCommentsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutMentionedInCommentsInput, Prisma.UserUncheckedUpdateWithoutMentionedInCommentsInput>
-}
-
-export type UserUpdateWithoutMentionedInCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fullname?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
-  reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
-  saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
-  commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutFromNestedInput
-  receivedNotifications?: Prisma.NotificationUpdateManyWithoutToNestedInput
-  authTokens?: Prisma.AuthTokenUpdateManyWithoutUserNestedInput
-  following?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
-  followers?: Prisma.FollowUpdateManyWithoutFollowingNestedInput
-}
-
-export type UserUncheckedUpdateWithoutMentionedInCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  fullname?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1183,7 +1027,6 @@ export type UserCreateWithoutFollowingInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -1208,7 +1051,6 @@ export type UserUncheckedCreateWithoutFollowingInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -1238,7 +1080,6 @@ export type UserCreateWithoutFollowersInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -1263,7 +1104,6 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -1304,7 +1144,6 @@ export type UserUpdateWithoutFollowingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1329,7 +1168,6 @@ export type UserUncheckedUpdateWithoutFollowingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1365,7 +1203,6 @@ export type UserUpdateWithoutFollowersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1390,7 +1227,6 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1415,7 +1251,6 @@ export type UserCreateWithoutLikesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
@@ -1440,7 +1275,6 @@ export type UserUncheckedCreateWithoutLikesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1481,7 +1315,6 @@ export type UserUpdateWithoutLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
@@ -1506,7 +1339,6 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1531,7 +1363,6 @@ export type UserCreateWithoutSentNotificationsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -1556,7 +1387,6 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -1586,7 +1416,6 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -1611,7 +1440,6 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -1652,7 +1480,6 @@ export type UserUpdateWithoutSentNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1677,7 +1504,6 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1713,7 +1539,6 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1738,7 +1563,6 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1762,7 +1586,6 @@ export type UserCreateWithoutPostsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
@@ -1787,7 +1610,6 @@ export type UserUncheckedCreateWithoutPostsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
@@ -1828,7 +1650,6 @@ export type UserUpdateWithoutPostsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
@@ -1853,7 +1674,6 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
@@ -1879,7 +1699,6 @@ export type UserCreateWithoutRepostsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
@@ -1904,7 +1723,6 @@ export type UserUncheckedCreateWithoutRepostsInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   saves?: Prisma.SaveUncheckedCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1945,7 +1763,6 @@ export type UserUpdateWithoutRepostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
@@ -1970,7 +1787,6 @@ export type UserUncheckedUpdateWithoutRepostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   saves?: Prisma.SaveUncheckedUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1995,7 +1811,6 @@ export type UserCreateWithoutSavesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
@@ -2020,7 +1835,6 @@ export type UserUncheckedCreateWithoutSavesInput = {
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
-  mentionedInComments?: Prisma.CommentUncheckedCreateNestedManyWithoutMentionedUserInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
   reposts?: Prisma.RepostUncheckedCreateNestedManyWithoutUserInput
   commentLikes?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
@@ -2061,7 +1875,6 @@ export type UserUpdateWithoutSavesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
@@ -2086,7 +1899,6 @@ export type UserUncheckedUpdateWithoutSavesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
-  mentionedInComments?: Prisma.CommentUncheckedUpdateManyWithoutMentionedUserNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
   reposts?: Prisma.RepostUncheckedUpdateManyWithoutUserNestedInput
   commentLikes?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -2105,7 +1917,6 @@ export type UserUncheckedUpdateWithoutSavesInput = {
 export type UserCountOutputType = {
   posts: number
   comments: number
-  mentionedInComments: number
   likes: number
   reposts: number
   saves: number
@@ -2120,7 +1931,6 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | UserCountOutputTypeCountPostsArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
-  mentionedInComments?: boolean | UserCountOutputTypeCountMentionedInCommentsArgs
   likes?: boolean | UserCountOutputTypeCountLikesArgs
   reposts?: boolean | UserCountOutputTypeCountRepostsArgs
   saves?: boolean | UserCountOutputTypeCountSavesArgs
@@ -2153,13 +1963,6 @@ export type UserCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Exte
  * UserCountOutputType without action
  */
 export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CommentWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountMentionedInCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommentWhereInput
 }
 
@@ -2241,7 +2044,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
-  mentionedInComments?: boolean | Prisma.User$mentionedInCommentsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
   reposts?: boolean | Prisma.User$repostsArgs<ExtArgs>
   saves?: boolean | Prisma.User$savesArgs<ExtArgs>
@@ -2300,7 +2102,6 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
-  mentionedInComments?: boolean | Prisma.User$mentionedInCommentsArgs<ExtArgs>
   likes?: boolean | Prisma.User$likesArgs<ExtArgs>
   reposts?: boolean | Prisma.User$repostsArgs<ExtArgs>
   saves?: boolean | Prisma.User$savesArgs<ExtArgs>
@@ -2320,7 +2121,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     posts: Prisma.$PostPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
-    mentionedInComments: Prisma.$CommentPayload<ExtArgs>[]
     likes: Prisma.$LikePayload<ExtArgs>[]
     reposts: Prisma.$RepostPayload<ExtArgs>[]
     saves: Prisma.$SavePayload<ExtArgs>[]
@@ -2739,7 +2539,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   posts<T extends Prisma.User$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  mentionedInComments<T extends Prisma.User$mentionedInCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mentionedInCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reposts<T extends Prisma.User$repostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$repostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RepostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   saves<T extends Prisma.User$savesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3209,30 +3008,6 @@ export type User$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
  * User.comments
  */
 export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Comment
-   */
-  select?: Prisma.CommentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Comment
-   */
-  omit?: Prisma.CommentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CommentInclude<ExtArgs> | null
-  where?: Prisma.CommentWhereInput
-  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
-  cursor?: Prisma.CommentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
-}
-
-/**
- * User.mentionedInComments
- */
-export type User$mentionedInCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Comment
    */

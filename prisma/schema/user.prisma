@@ -18,7 +18,6 @@ model User {
 
   posts                 Post[]
   comments              Comment[]      @relation("CommentAuthor")
-  mentionedInComments   Comment[]      @relation("CommentMentionedUser")
   likes                 Like[]
   reposts               Repost[]
   saves                 Save[]

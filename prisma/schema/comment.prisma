@@ -1,23 +1,26 @@
 model Comment {
-  id              String   @id @default(cuid())
-  postId          String   @map("post_id")
-  userId          String   @map("user_id")
-  parentId        String?  @map("parent_id")
-  mentionedUserId String?  @map("mentioned_user_id")
-  text            String?
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  id                 String   @id @default(cuid())
+  postId             String   @map("post_id")
+  userId             String   @map("user_id")
+  parentId           String?  @map("parent_id")
+  repliedToCommentId String?  @map("replied_to_comment_id")
+  text               String?
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
 
-  post          Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user          User           @relation("CommentAuthor", fields: [userId], references: [id], onDelete: Cascade)
-  mentionedUser User?          @relation("CommentMentionedUser", fields: [mentionedUserId], references: [id], onDelete: SetNull)
-  parent        Comment?       @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies       Comment[]      @relation("CommentReplies")
+  post              Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user              User      @relation("CommentAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  parent            Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies           Comment[] @relation("CommentReplies")
+  repliedToComment  Comment?  @relation("CommentRepliedTo", fields: [repliedToCommentId], references: [id], onDelete: SetNull)
+  repliedByComments Comment[] @relation("CommentRepliedTo")
+
   likes         CommentLike[]
   notifications Notification[]
 
   @@index([postId, createdAt])
-  @@index([parentId])
+  @@index([parentId, createdAt])
+  @@index([repliedToCommentId])
   @@index([userId])
   @@map("comments")
 }
