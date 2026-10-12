@@ -255,7 +255,7 @@ export class CommentsService {
       where: { id: commentId },
     });
 
-    return { message: 'Post deleted successfully' };
+    return { message: 'Comment deleted successfully' };
   }
 
   async updateComment({
