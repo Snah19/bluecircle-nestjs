@@ -254,5 +254,6 @@ export class CommentsService {
       where: { id: commentId },
     });
 
+    return { message: 'Post deleted successfully' };
   }
 }
