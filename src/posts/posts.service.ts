@@ -654,11 +654,6 @@ export class PostsService {
               password: true,
             },
           },
-          mentionedUser: {
-            omit: {
-              password: true,
-            },
-          },
           _count: {
             select: {
               likes: true,
@@ -694,14 +689,13 @@ export class PostsService {
         _count,
         user,
         likes,
-        mentionedUser,
         ...commentFields
       } = c;
 
       return {
         ...commentFields,
         user,
-        mentionedUser,
+        repliedToComment: null,
         meta: {
           totalLikes: _count.likes,
           totalReplies: _count.replies,
