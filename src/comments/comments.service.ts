@@ -3,6 +3,17 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
 
+const repliedToCommentSelect = {
+  id: true,
+  text: true,
+  createdAt: true,
+  user: {
+    omit: {
+      password: true,
+    },
+  },
+} as const;
+
 @Injectable()
 export class CommentsService {
   constructor(private prismaService: PrismaService) {}
@@ -29,33 +40,32 @@ export class CommentsService {
     }
 
     let parentId: string | null = null;
-    let mentionedUserId: string | null = null;
+    let repliedToCommentId: string | null = null;
 
-    if (dto.parentId) {
-      const parentComment = await this.prismaService.comment.findUnique({
+    if (dto.replyToCommentId) {
+      const targetComment = await this.prismaService.comment.findUnique({
         where: {
-          id: dto.parentId,
+          id: dto.replyToCommentId,
         },
         select: {
           id: true,
           postId: true,
           parentId: true,
-          userId: true,
         }
       });
 
-      if (!parentComment) {
-        throw new NotFoundException("Parent comment not found");
+      if (!targetComment) {
+        throw new NotFoundException("Comment not found");
       }
 
-      if (parentComment.postId !== postId) {
-        throw new BadRequestException("Parent comment does not belong to this post");
+      if (targetComment.postId !== postId) {
+        throw new BadRequestException("Comment does not belong to this post");
       }
 
-      parentId = parentComment.parentId ?? parentComment.id;
+      const isReplyingToRootComment = targetComment.parentId === null;
 
-      const isReplyingToParentComment = parentComment.parentId === null;
-      mentionedUserId = isReplyingToParentComment ? null : parentComment.userId;
+      parentId = isReplyingToRootComment ? targetComment.id : targetComment.parentId;
+      repliedToCommentId = isReplyingToRootComment ? null : targetComment.id;
     }
 
     const comment = await this.prismaService.comment.create({
@@ -63,7 +73,7 @@ export class CommentsService {
         postId,
         userId: authUserId,
         parentId,
-        mentionedUserId,
+        repliedToCommentId,
         text: dto.text,
       },
       include: {
@@ -72,11 +82,9 @@ export class CommentsService {
             password: true,
           },
         },
-        mentionedUser: {
-          omit: {
-            password: true,
-          },
-        }
+        repliedToComment: {
+          select: repliedToCommentSelect,
+        },
       }
     });
 
@@ -164,10 +172,8 @@ export class CommentsService {
               password: true,
             },
           },
-          mentionedUser: {
-            omit: {
-              password: true,
-            },
+          repliedToComment: {
+            select: repliedToCommentSelect,
           },
           _count: {
             select: {
@@ -202,14 +208,14 @@ export class CommentsService {
         _count,
         user,
         likes,
-        mentionedUser,
+        repliedToComment,
         ...commentFields
       } = c;
 
       return {
         ...commentFields,
         user,
-        mentionedUser,
+        repliedToComment,
         meta: {
           totalLikes: _count.likes,
           totalReplies: 0,
@@ -295,10 +301,8 @@ export class CommentsService {
             password: true,
           },
         },
-        mentionedUser: {
-          omit: {
-            password: true,
-          },
+        repliedToComment: {
+          select: repliedToCommentSelect,
         },
       },
     });
