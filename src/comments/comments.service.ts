@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 
@@ -228,5 +228,31 @@ export class CommentsService {
         lastPage: Math.ceil(total / limit),
       }
     }
+  }
+
+  async deleteComment({
+    commentId,
+    authUserId,
+  }: {
+    commentId: string;
+    authUserId: string;
+  }) {
+    const comment = await this.prismaService.comment.findUnique({
+      where: { id: commentId },
+      select: { id: true, userId: true },
+    });
+
+    if (!comment) {
+      throw new NotFoundException("Comment not found");
+    }
+
+    if (comment.userId !== authUserId) {
+      throw new ForbiddenException("You can only delete your own comments");
+    }
+
+    await this.prismaService.comment.delete({
+      where: { id: commentId },
+    });
+
   }
 }

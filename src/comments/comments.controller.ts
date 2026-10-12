@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { AuthUser } from "src/auth/auth-user.decorator";
@@ -50,4 +50,16 @@ export class CommentsController {
       limit: dto.limit,
     });
   }
+
+  @Delete("/:commentId")
+  @UseGuards(AuthGuard)
+  async deleteComment(
+    @Param("commentId") commentId: string,
+    @AuthUser() authUser: { id: string },
+  ) {
+    return this.commentsService.deleteComment({
+      commentId,
+      authUserId: authUser.id,
+    });
+  }  
 }
