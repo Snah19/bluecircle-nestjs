@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { AuthUser } from "src/auth/auth-user.decorator";
@@ -40,12 +40,12 @@ export class CommentsController {
   @UseGuards(OptionalAuthGuard)
   async findReplies(
     @Param("commentId") commentId: string,
-    @Body() dto: PaginateCommentsDto,
+    @Query() dto: PaginateCommentsDto,
     @AuthUser() authUser?: { id: string },
   ) {
     return this.commentsService.findReplies({
       commentId,
-      authUserId:  authUser?.id,
+      authUserId: authUser?.id,
       page: dto.page,
       limit: dto.limit,
     });
