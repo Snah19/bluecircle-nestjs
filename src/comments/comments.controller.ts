@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "src/auth/auth.guard";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { AuthUser } from "src/auth/auth-user.decorator";
 import { CommentsService } from "./comments.service";
 import { OptionalAuthGuard } from "src/auth/optional-auth.guard";
 import { PaginateCommentsDto } from "./dto/paginate-comments.dto";
+import { UpdateCommentDto } from "./dto/update-comment.dto";
 
 @Controller("comments")
 export class CommentsController {
@@ -61,5 +62,19 @@ export class CommentsController {
       commentId,
       authUserId: authUser.id,
     });
-  }  
+  }
+
+  @Patch("/:commentId")
+  @UseGuards(AuthGuard)
+  async updateComment(
+    @Param("commentId") commentId: string,
+    @Body() dto: UpdateCommentDto,
+    @AuthUser() authUser: { id: string },
+  ) {
+    return this.commentsService.updateComment({
+      commentId,
+      authUserId: authUser.id,
+      dto,
+    });
+  }
 }

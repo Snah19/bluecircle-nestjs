@@ -1,6 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
+import { UpdateCommentDto } from "./dto/update-comment.dto";
 
 @Injectable()
 export class CommentsService {
@@ -255,5 +256,51 @@ export class CommentsService {
     });
 
     return { message: 'Post deleted successfully' };
+  }
+
+  async updateComment({
+    commentId,
+    authUserId,
+    dto,
+  }: {
+    commentId: string;
+    authUserId: string;
+    dto: UpdateCommentDto;
+  }) {
+    const comment = await this.prismaService.comment.findUnique({
+      where: { id: commentId },
+      select: { id: true, userId: true },
+    });
+
+    if (!comment) {
+      throw new NotFoundException("Comment not found");
+    }
+
+    if (comment.userId !== authUserId) {
+      throw new ForbiddenException("You can only update your own comments");
+    }
+
+    const text = dto.text.trim();
+
+    if (!text) {
+      throw new BadRequestException("Comment text cannot be empty");
+    }
+
+    return this.prismaService.comment.update({
+      where: { id: commentId },
+      data: { text },
+      include: {
+        user: {
+          omit: {
+            password: true,
+          },
+        },
+        mentionedUser: {
+          omit: {
+            password: true,
+          },
+        },
+      },
+    });
   }
 }
