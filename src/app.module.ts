@@ -12,6 +12,7 @@ import { FollowsModudle } from './follows/follows.module';
 import { CommentsModule } from './comments/comments.module';
 import { MeModule } from './me/me.module';
 import { CloudImagesModule } from './cloud-images/cloud-images.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CloudImagesModule } from './cloud-images/cloud-images.module';
     CommentsModule,
     UploadImagesModule,
     CloudImagesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

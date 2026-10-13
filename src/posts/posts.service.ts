@@ -458,19 +458,16 @@ export class PostsService {
     };
   }
 
-  async toggleLike(
-    {
-      postId,
-      authUserId,
-    } : {
-      postId: string;
-      authUserId: string;
-    }
-  ) {
+  async toggleLike({
+    postId,
+    authUserId
+  }: {
+    postId: string;
+    authUserId: string;
+  }) {
     const post = await this.prismaService.post.findUnique({
-      where: {
-        id: postId,
-      }
+      where: { id: postId },
+      select: { id: true, userId: true },
     });
 
     if (!post) {
@@ -482,51 +479,53 @@ export class PostsService {
         userId_postId: {
           userId: authUserId,
           postId,
+        },
+      },
+    });
+
+    await this.prismaService.$transaction(async (tx) => {
+      if (existingLike) {
+        await tx.like.delete({ where: { id: existingLike.id } });
+
+        await tx.notification.deleteMany({
+          where: {
+            fromId: authUserId,
+            toId: post.userId,
+            type: 'like',
+            postId,
+            commentId: null,
+          },
+        });
+      } else {
+        await tx.like.create({ data: { userId: authUserId, postId } });
+
+        if (authUserId !== post.userId) {
+          await tx.notification.create({
+            data: {
+              fromId: authUserId,
+              toId: post.userId,
+              type: 'like',
+              postId,
+            },
+          });
         }
       }
     });
 
-    if (existingLike) {
-      await this.prismaService.like.delete({
-        where: {
-          id: existingLike.id,
-        }
-      });
-    }
-    else {
-      await this.prismaService.like.create({
-        data: {
-          userId: authUserId,
-          postId,
-        }
-      });
-    }
-
     const totalLikes = await this.prismaService.like.count({
-      where: {
-        postId,
-      }
+      where: { postId },
     });
 
     return {
       isLiked: !existingLike,
       totalLikes,
-    }
+    };
   }
 
-  async toggleRepost(
-    {
-      postId,
-      authUserId,
-    } : {
-      postId: string;
-      authUserId: string;
-    }
-  ) {
+  async toggleRepost({ postId, authUserId }: { postId: string; authUserId: string }) {
     const post = await this.prismaService.post.findUnique({
-      where: {
-        id: postId,
-      },
+      where: { id: postId },
+      select: { id: true, userId: true },
     });
 
     if (!post) {
@@ -538,36 +537,47 @@ export class PostsService {
         userId_postId: {
           userId: authUserId,
           postId,
+        },
+      },
+    });
+
+    await this.prismaService.$transaction(async (tx) => {
+      if (existingRepost) {
+        await tx.repost.delete({ where: { id: existingRepost.id } });
+
+        await tx.notification.deleteMany({
+          where: {
+            fromId: authUserId,
+            toId: post.userId,
+            type: 'repost',
+            postId,
+            commentId: null,
+          },
+        });
+      }
+      else {
+        await tx.repost.create({ data: { userId: authUserId, postId } });
+        if (authUserId !== post.userId) {
+          await tx.notification.create({
+            data: {
+              fromId: authUserId,
+              toId: post.userId,
+              type: 'repost',
+              postId,
+            },
+          });
         }
       }
     });
 
-    if (existingRepost) {
-      await this.prismaService.repost.delete({
-        where: {
-          id: existingRepost.id,
-        },
-      });
-    }
-    else {
-      await this.prismaService.repost.create({
-        data: {
-          userId: authUserId,
-          postId,
-        },
-      });
-    }
-
     const totalReposts = await this.prismaService.repost.count({
-      where: {
-        postId,
-      }
+      where: { postId },
     });
 
     return {
       isReposted: !existingRepost,
       totalReposts,
-    }
+    };
   }
 
   async toggleSave(
