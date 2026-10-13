@@ -1,6 +1,7 @@
 enum NotificationType {
   follow
   comment
+  reply
   like
   repost
   favorite

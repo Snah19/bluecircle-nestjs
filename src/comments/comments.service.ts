@@ -2,6 +2,7 @@ import { BadRequestException, ForbiddenException, Injectable, NotFoundException 
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { NotificationType } from "prisma/generated/prisma/enums";
 
 const repliedToCommentSelect = {
   id: true,
@@ -18,88 +19,99 @@ const repliedToCommentSelect = {
 export class CommentsService {
   constructor(private prismaService: PrismaService) {}
 
-  async createComment(
-    {
-      postId,
-      authUserId,
-      dto,
-    }: {
-      postId: string;
-      authUserId: string;
-      dto: CreateCommentDto;
-    }
-  ) {
+  async createComment({
+    postId,
+    authUserId,
+    dto,
+  }: {
+    postId: string;
+    authUserId: string;
+    dto: CreateCommentDto;
+  }) {
     const post = await this.prismaService.post.findUnique({
-      where: {
-        id: postId,
-      }
+      where: { id: postId },
+      select: { id: true, userId: true },
     });
 
     if (!post) {
-      throw new NotFoundException("Post not found");
+      throw new NotFoundException('Post not found');
     }
 
     let parentId: string | null = null;
     let repliedToCommentId: string | null = null;
+    let replyTargetUserId: string | null = null;
 
     if (dto.replyToCommentId) {
       const targetComment = await this.prismaService.comment.findUnique({
-        where: {
-          id: dto.replyToCommentId,
-        },
-        select: {
-          id: true,
-          postId: true,
-          parentId: true,
-        }
+        where: { id: dto.replyToCommentId },
+        select: { id: true, postId: true, parentId: true, userId: true },
       });
 
       if (!targetComment) {
-        throw new NotFoundException("Comment not found");
+        throw new NotFoundException('Comment not found');
       }
 
       if (targetComment.postId !== postId) {
-        throw new BadRequestException("Comment does not belong to this post");
+        throw new BadRequestException('Comment does not belong to this post');
       }
 
       const isReplyingToRootComment = targetComment.parentId === null;
 
       parentId = isReplyingToRootComment ? targetComment.id : targetComment.parentId;
       repliedToCommentId = isReplyingToRootComment ? null : targetComment.id;
+      replyTargetUserId = targetComment.userId;
     }
 
-    const comment = await this.prismaService.comment.create({
-      data: {
-        postId,
-        userId: authUserId,
-        parentId,
-        repliedToCommentId,
-        text: dto.text,
-      },
-      include: {
-        user: {
-          omit: {
-            password: true,
-          },
+    return this.prismaService.$transaction(async (tx) => {
+      const comment = await tx.comment.create({
+        data: {
+          postId,
+          userId: authUserId,
+          parentId,
+          repliedToCommentId,
+          text: dto.text,
         },
-        repliedToComment: {
-          select: repliedToCommentSelect,
+        include: {
+          user: { omit: { password: true } },
+          repliedToComment: { select: repliedToCommentSelect },
         },
-      }
-    });
+      });
 
-    return comment;
+      // recipient userId -> notification type
+      const recipients = new Map<string, NotificationType>();
+
+      recipients.set(post.userId, 'comment');
+
+      if (replyTargetUserId) {
+        // Overwrites 'comment' if the post author is also the reply target
+        recipients.set(replyTargetUserId, 'reply');
+      }
+
+      recipients.delete(authUserId); // never notify yourself
+
+      if (recipients.size > 0) {
+        await tx.notification.createMany({
+          data: [...recipients].map(([toId, type]) => ({
+            fromId: authUserId,
+            toId,
+            type,
+            postId,
+            commentId: comment.id,
+          })),
+        });
+      }
+
+      return comment;
+    });
   }
 
-  async toggleLikeComment(
-    {
-      commentId,
-      authUserId,
-    }: {
-      commentId: string;
-      authUserId: string;
-    }
-  ) {
+  async toggleLikeComment({
+    commentId,
+    authUserId,
+  }: {
+    commentId: string;
+    authUserId: string;
+  }) {
     const comment = await this.prismaService.comment.findUnique({
       where: {
         id: commentId,
@@ -119,26 +131,48 @@ export class CommentsService {
       },
     });
 
-    if (existingLike) {
-      await this.prismaService.commentLike.delete({
-        where: {
-          id: existingLike.id,
+    await this.prismaService.$transaction(async (tx) => {
+      if (existingLike) {
+        await tx.commentLike.delete({
+          where: {
+            id: existingLike.id,
+          },
+        });
+
+        await tx.notification.deleteMany({
+          where: {
+            fromId: authUserId,
+            toId: comment.userId,
+            type: "like",
+            commentId,
+          },
+        });
+      } else {
+        await tx.commentLike.create({
+          data: {
+            userId: authUserId,
+            commentId,
+          },
+        });
+
+        if (authUserId !== comment.userId) {
+          await tx.notification.create({
+            data: {
+              fromId: authUserId,
+              toId: comment.userId,
+              type: "like",
+              postId: comment.postId,
+              commentId,
+            },
+          });
         }
-      });
-    }
-    else {
-      await this.prismaService.commentLike.create({
-        data: {
-          userId: authUserId,
-          commentId,
-        },
-      });
-    }
+      }
+    });
 
     const totalLikes = await this.prismaService.commentLike.count({
       where: {
         commentId,
-      }
+      },
     });
 
     return {

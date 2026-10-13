@@ -12,6 +12,7 @@
 export const NotificationType = {
   follow: 'follow',
   comment: 'comment',
+  reply: 'reply',
   like: 'like',
   repost: 'repost',
   favorite: 'favorite'
