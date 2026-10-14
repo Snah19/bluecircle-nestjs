@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Patch, Query, UseGuards } from "@nestjs/common";
 import { NotificationsService } from "./notifications.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { AuthUser } from "src/auth/auth-user.decorator";
@@ -30,11 +30,15 @@ export class NotificationsController {
     });
   }
 
-  @Patch("mark-as-read")
+  @Patch(":id/read")
   @UseGuards(AuthGuard)
-  markAllNotificationsAsRead(
-    @AuthUser() authUser: { id: string }
+  markNotificationAsRead(
+    @AuthUser() authUser: { id: string },
+    @Param('id') id: string,
   ) {
-    return this.notificationsService.markAllNotificationsAsRead({ authUserId: authUser.id });
+    return this.notificationsService.markNotificationAsRead({
+      authUserId: authUser.id,
+      notificationId: id,
+    });
   }
 }
