@@ -13,6 +13,7 @@ import { CommentsModule } from './comments/comments.module';
 import { MeModule } from './me/me.module';
 import { CloudImagesModule } from './cloud-images/cloud-images.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     UploadImagesModule,
     CloudImagesModule,
     NotificationsModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],

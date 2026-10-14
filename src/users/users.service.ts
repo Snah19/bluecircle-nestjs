@@ -3,23 +3,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CloudImagesService } from "src/cloud-images/cloud-images.service";
 import { PrismaService } from "src/prisma/prisma.service";
-
-const getRelationshipStatus = (
-  isFollowedByViewer: boolean,
-  isFolliwingViewer: boolean,
-): "follow" | "following" | "follow back" | "friend" => {
-  if (isFollowedByViewer && isFolliwingViewer) {
-    return "friend";
-  }
-  if (isFollowedByViewer) {
-    return "following";
-  }
-  if (isFolliwingViewer) {
-    return "follow back";
-  }
-
-  return "follow";
-};
+import { getRelationshipStatus } from "./utils/get-relationship-status";
 
 @Injectable()
 export class UsersService {
