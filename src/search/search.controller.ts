@@ -20,4 +20,15 @@ export class SearchController {
     });
   }
 
+  @Get('posts')
+  @UseGuards(OptionalAuthGuard)
+  async searchPosts(
+    @Query() dto: SearchDto,
+    @AuthUser() user?: { id: string },
+  ) {
+    return this.searchService.searchPosts({
+      authUserId: user?.id,
+      ...dto,
+    });
+  }
 }

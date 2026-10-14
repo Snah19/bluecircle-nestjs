@@ -84,4 +84,74 @@ export class SearchService {
       meta: { total, page, limit, lastPage: Math.ceil(total / limit) },
     };
   }
+
+  async searchPosts({
+    authUserId,
+    query,
+    page,
+    limit,
+  }: {
+    authUserId?: string;
+    query: string;
+    page: number;
+    limit: number;
+  }) {
+    const q = query.trim();
+
+    if (!q) {
+      return { data: [], meta: { total: 0, page, limit, lastPage: 0 } };
+    }
+
+    const viewerId = authUserId ?? "__unauthenticated__";
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.PostWhereInput = {
+      text: { contains: q, mode: "insensitive" },
+    };
+
+    const [posts, total] = await Promise.all([
+      this.prismaService.post.findMany({
+        where,
+        include: {
+          user: { omit: { password: true, email: true } },
+          _count: {
+            select: { likes: true, reposts: true, saves: true, comments: true },
+          },
+          likes: { where: { userId: viewerId }, select: { id: true } },
+          reposts: { where: { userId: viewerId }, select: { id: true } },
+          saves: { where: { userId: viewerId }, select: { id: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+
+      this.prismaService.post.count({ where }),
+    ]);
+
+    const data = posts.map((p) => {
+      const { _count, user, likes, reposts, saves, ...postFields } = p;
+
+      return {
+        ...postFields,
+        user,
+        meta: {
+          totalLikes: _count.likes,
+          totalReposts: _count.reposts,
+          totalSaves: _count.saves,
+          totalComments: _count.comments,
+        },
+        viewer: {
+          isLiked: likes.length > 0,
+          isReposted: reposts.length > 0,
+          isSaved: saves.length > 0,
+        },
+      };
+    });
+
+    return {
+      data,
+      meta: { total, page, limit, lastPage: Math.ceil(total / limit) },
+    };
+  }
 }
